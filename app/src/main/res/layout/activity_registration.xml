@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/wave" />
+            android:src="@drawable/wave"
+            app:tint="@color/purple_700"/>
 
         <TextView
             android:id="@+id/tv_welcome"
@@ -262,7 +263,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:layout_marginTop="10dp"
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_signup"
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
@@ -275,6 +276,7 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/tv_signup_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
