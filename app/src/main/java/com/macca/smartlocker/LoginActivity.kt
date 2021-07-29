@@ -17,12 +17,12 @@ class LoginActivity : AppCompatActivity() {
         //cek status login
         val auth = FirebaseAuth.getInstance()
 
-//        if (auth.currentUser != null){
-//            //user is signed in. redirect to mainActivity
-//            val i = Intent(this, MainActivity::class.java)
-//            startActivity(i)
-//            finish()
-//        }
+        if (auth.currentUser != null){
+            //user is signed in. redirect to mainActivity
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+            finish()
+        }
 
         btn_login.setOnClickListener {
             val email = et_email.text.toString()

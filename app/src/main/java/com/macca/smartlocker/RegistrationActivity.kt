@@ -55,6 +55,11 @@ class RegistrationActivity : AppCompatActivity() {
                             et_pass1.text.clear()
 
                             Toast.makeText(this, "Successfully Created Data", Toast.LENGTH_SHORT).show()
+
+                            val i = Intent(this, LoginActivity::class.java)
+                            startActivity(i)
+                            finish()
+
                         } .addOnFailureListener {
                             Toast.makeText(this, "Failed Created Data", Toast.LENGTH_SHORT).show()
                         }
@@ -65,10 +70,6 @@ class RegistrationActivity : AppCompatActivity() {
                         Toast.makeText(this, "Account failed to created. with meesage ${it.exception?.printStackTrace()}", Toast.LENGTH_SHORT).show()
                     }
                 }
-
-            val i = Intent(this, LoginActivity::class.java)
-            startActivity(i)
-            finish()
         }
 
         tv_signup_login.setOnClickListener {

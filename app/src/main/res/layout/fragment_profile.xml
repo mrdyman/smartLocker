@@ -54,6 +54,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_user_location_container"
         android:layout_below="@id/ll_user_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -73,6 +74,25 @@
             android:textSize="11sp"
             android:layout_marginTop="2dp"
             android:textColor="@color/white"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/ll_user_location_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp">
+
+        <TextView
+            android:id="@+id/tv_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:textSize="11sp"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/purple_200"
+            android:fontFamily="@font/poppins_medium"
             android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
