@@ -6,13 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.macca.smartlocker.Adapter.LockerAdapter
 import com.macca.smartlocker.Model.Locker
-import com.macca.smartlocker.Model.User
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.fragment_home.*
 

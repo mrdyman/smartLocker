@@ -9,7 +9,7 @@
         android:id="@+id/nav_mylocker"
         android:enabled="true"
         android:icon="@drawable/ic_locker"
-        android:title="My Locker"/>
+        android:title="Locker"/>
 
     <item
         android:id="@+id/nav_history"

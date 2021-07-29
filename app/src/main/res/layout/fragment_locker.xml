@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.LockerFragment">
 
     <androidx.cardview.widget.CardView
-        android:layout_below="@+id/tv_label_locker_container"
         android:id="@+id/cv_locker"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="200dp"
+        android:layout_margin="20dp"
         app:cardCornerRadius="20dp">
 
         <RelativeLayout
@@ -21,12 +19,12 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_img_locker"
-                android:layout_width="100dp"
+                android:layout_width="135dp"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="20dp">
 
                 <ImageView
-                    android:layout_width="150dp"
+                    android:layout_width="185dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:src="@drawable/finance" />
@@ -37,12 +35,13 @@
                 android:id="@+id/tv_nama_locker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/cv_img_locker"
-                android:fontFamily="@font/helveticabold"
+                android:fontFamily="@font/poppins_medium"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:text="NAMA LOCKER"
+                android:textColor="@color/black"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -52,61 +51,6 @@
                 android:layout_toEndOf="@id/cv_img_locker"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/helveticabold"
-                        android:text="Start" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/helveticabold"
-                        android:text=":" />
-
-                    <TextView
-                        android:id="@+id/tv_start"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="08.00"
-                        android:fontFamily="@font/helveticabold"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/helveticabold"
-                        android:text="End" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text=":"
-                        android:fontFamily="@font/helveticabold"/>
-
-                    <TextView
-                        android:id="@+id/tv_end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="12.00"
-                        android:fontFamily="@font/helveticabold"/>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,16 +61,60 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/helveticaroundedbold"
-                        android:text="Sisa Waktu :" />
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Status" />
 
                     <TextView
-                        android:id="@+id/tv_time_remaining"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="52dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_locker_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/helveticaroundedbold"
-                        android:text="120 Menit" />
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Ready" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Biaya Sewa"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_regular"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginStart="15dp"/>
+
+                    <TextView
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 10.000"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textColor="@color/black"/>
 
                 </LinearLayout>
 
@@ -135,20 +123,15 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_setting"
+                        android:id="@+id/btn_add_to_cart"
+                        android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#00FAFAFA"
-                        android:text="Setting"
                         app:cornerRadius="20dp"
-                        android:textColor="@color/purple_700"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="End"
-                        app:cornerRadius="20dp" />
+                        android:text="Add to cart"
+                        android:textSize="11sp"
+                        app:icon="@drawable/ic_add_shopping_cart"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
                 </LinearLayout>
 
