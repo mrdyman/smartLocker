@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.macca.smartlocker.Fragment.HomeFragment
 import com.macca.smartlocker.Fragment.DetailLockerFragment
+import com.macca.smartlocker.Fragment.MyLockerFragment
 import com.macca.smartlocker.Fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -24,15 +25,15 @@ class MainActivity : AppCompatActivity() {
         bn_home.setOnNavigationItemSelectedListener(bottomNavListener)
 
         val fr = supportFragmentManager.beginTransaction()
-        fr.add(R.id.ll_home_fragment_container, HomeFragment())
+        fr.add(R.id.ll_home_fragment_container, MyLockerFragment())
         fr.commit()
     }
 
     private val bottomNavListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        var selectedFr: Fragment = HomeFragment()
+        var selectedFr: Fragment = MyLockerFragment()
         when (item.itemId) {
             R.id.nav_home -> {
-                selectedFr = HomeFragment()
+                selectedFr = MyLockerFragment()
             }
             R.id.nav_mylocker -> {
                 selectedFr = DetailLockerFragment()

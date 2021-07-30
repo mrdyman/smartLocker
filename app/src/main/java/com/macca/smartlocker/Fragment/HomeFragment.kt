@@ -26,34 +26,34 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        lockerList = arrayListOf()
-        lockerAdapter = LockerAdapter(lockerList)
-        rv_locker.setHasFixedSize(true)
-        rv_locker.layoutManager = LinearLayoutManager(activity)
-        rv_locker.adapter = lockerAdapter
-        getLocker()
+//
+//        lockerList = arrayListOf()
+//        lockerAdapter = LockerAdapter(lockerList)
+//        rv_locker.setHasFixedSize(true)
+//        rv_locker.layoutManager = LinearLayoutManager(activity)
+//        rv_locker.adapter = lockerAdapter
+//        getLocker()
     }
 
-    fun getLocker(){
-        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
-
-        databaseReference.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                if (dataSnapshot.exists()){
-                    for (data in dataSnapshot.children){
-                        val locker = data.getValue(Locker::class.java)
-                        lockerList.add(locker!!)
-                    }
-                    rv_locker.adapter = lockerAdapter
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("Firebase", "Database Error with message ${databaseError.message}")
-            }
-
-        })
-    }
+//    fun getLocker(){
+//        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
+//
+//        databaseReference.addValueEventListener(object : ValueEventListener{
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//
+//                if (dataSnapshot.exists()){
+//                    for (data in dataSnapshot.children){
+//                        val locker = data.getValue(Locker::class.java)
+//                        lockerList.add(locker!!)
+//                    }
+//                    rv_locker.adapter = lockerAdapter
+//                }
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                Log.d("Firebase", "Database Error with message ${databaseError.message}")
+//            }
+//
+//        })
+//    }
 }
