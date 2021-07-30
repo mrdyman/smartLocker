@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailLockerActivity">
+    tools:context=".SettingLockerActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_detail_locker"
@@ -76,6 +76,7 @@
                         android:layout_marginStart="75dp"/>
 
                     <TextView
+                        android:id="@+id/tv_mulai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -108,6 +109,7 @@
                         android:layout_marginStart="83dp"/>
 
                     <TextView
+                        android:id="@+id/tv_selesai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -140,6 +142,7 @@
                         android:layout_marginStart="32dp"/>
 
                     <TextView
+                        android:id="@+id/tv_sisa_waktu_setting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -172,6 +175,7 @@
                         android:layout_marginStart="16.7dp"/>
 
                     <TextView
+                        android:id="@+id/tv_locker_status_setting"
                         android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
