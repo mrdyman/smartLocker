@@ -33,10 +33,10 @@ class MyLockerFragment : Fragment() {
         rv_my_locker.setHasFixedSize(true)
         rv_my_locker.layoutManager = LinearLayoutManager(activity)
         rv_my_locker.adapter = transactionAdapter
-        getLocker()
+        getMyLocker()
     }
 
-    private fun getLocker() {
+    private fun getMyLocker() {
         databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
 
         val auth =  (activity as MainActivity).auth
@@ -73,24 +73,5 @@ class MyLockerFragment : Fragment() {
             }
 
         })
-
-//        databaseReference.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//
-//                if (dataSnapshot.exists()){
-//
-//                    for (data in dataSnapshot.children){
-//                        val locker = data.getValue(Transaction::class.java)
-//                        myLockerList.add(locker!!)
-//                    }
-//                    rv_my_locker.adapter = transactionAdapter
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                Log.d("Firebase", "Database Error with message ${databaseError.message}")
-//            }
-//
-//        })
     }
 }

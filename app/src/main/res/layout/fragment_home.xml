@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.LockerFragment">
+    tools:context=".Fragment.MyLockerFragment">
 
     <LinearLayout
         android:id="@+id/ll_profile_container"

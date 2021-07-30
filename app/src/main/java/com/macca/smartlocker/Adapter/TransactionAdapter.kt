@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
-import kotlinx.android.synthetic.main.fragment_my_locker.view.*
+import kotlinx.android.synthetic.main.list_my_locker.view.*
 
 class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
@@ -19,7 +19,7 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
         val transaction = Transaction[position]
 
         holder.namaLocker.text = transaction.Nama_Locker
-        holder.mstatus.text = transaction.Locker_Status
+        holder.mStatus.text = transaction.Locker_Status
     }
 
     override fun getItemCount(): Int {
@@ -29,6 +29,6 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
     class TransactionHolder (itemView : View) : RecyclerView.ViewHolder(itemView) {
         var namaLocker = itemView.tv_my_nama_locker
         var sisaWaktu = itemView.tv_sisa_waktu
-        var mstatus = itemView.tv_mylcoker_status
+        var mStatus = itemView.tv_mylcoker_status
     }
 }
