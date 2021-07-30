@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.HomeFragment">
+    tools:context=".Fragment.LockerFragment">
 
     <LinearLayout
         android:id="@+id/ll_profile_container"
@@ -147,7 +147,7 @@
         android:layout_below="@id/tv_label_locker_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/fragment_my_locker" />
+        tools:listitem="@layout/list_my_locker" />
 
 
 </RelativeLayout>

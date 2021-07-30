@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_home"
         android:title="Home"/>
     <item
-        android:id="@+id/nav_mylocker"
+        android:id="@+id/nav_locker"
         android:enabled="true"
         android:icon="@drawable/ic_locker"
         android:title="Locker"/>

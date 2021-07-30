@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_my_locker.view.*
 class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.fragment_my_locker, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_my_locker, parent, false)
         return TransactionHolder(view)
     }
 

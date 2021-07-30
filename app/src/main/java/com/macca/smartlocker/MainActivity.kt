@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.macca.smartlocker.Fragment.HomeFragment
-import com.macca.smartlocker.Fragment.DetailLockerFragment
+import com.macca.smartlocker.Fragment.LockerFragment
 import com.macca.smartlocker.Fragment.MyLockerFragment
 import com.macca.smartlocker.Fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,11 +34,11 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_home -> {
                 selectedFr = MyLockerFragment()
             }
-            R.id.nav_mylocker -> {
-                selectedFr = DetailLockerFragment()
+            R.id.nav_locker -> {
+                selectedFr = LockerFragment()
             }
             R.id.nav_history -> {
-                selectedFr = HomeFragment()
+                selectedFr = LockerFragment()
             }
             R.id.nav_profile -> {
                 selectedFr = ProfileFragment()
