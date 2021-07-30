@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
 import com.macca.smartlocker.Adapter.LockerAdapter
 import com.macca.smartlocker.Model.Locker
+import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_locker.*
@@ -44,8 +45,16 @@ class LockerFragment : Fragment() {
 
                 if (dataSnapshot.exists()){
                     for (data in dataSnapshot.children){
-                        val locker = data.getValue(Locker::class.java)
-                        lockerList.add(locker!!)
+                        //ambil data status locker (ready/booked)
+                        val lockerStatus = data.child("Status").value
+
+                        //cek, kalo status locker = ready, tampilkan ke recyclerview
+                        if (lockerStatus == "Ready") {
+                            //status = Ready, masukkan data ke recyclerView
+                            val lockerData = data.getValue(Locker::class.java)
+                            lockerList.add(lockerData!!)
+                            Log.d("lockerStatus", "Locker is Ready")
+                        }
                     }
                     rv_list_locker_available.adapter = lockerAdapter
                 }
