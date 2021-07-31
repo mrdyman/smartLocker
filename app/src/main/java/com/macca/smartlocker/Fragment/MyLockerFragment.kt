@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class MyLockerFragment : Fragment() {
 
     private lateinit var transactionAdapter : TransactionAdapter
-    private lateinit var databaseReference : DatabaseReference
+    private lateinit var databaseReferenceTransaction : DatabaseReference
+    private lateinit var databaseReferenceLocker : DatabaseReference
     private lateinit var myLockerList : ArrayList<Transaction>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
@@ -37,12 +38,12 @@ class MyLockerFragment : Fragment() {
     }
 
     private fun getMyLocker() {
-        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
 
         val auth =  (activity as MainActivity).auth
         val userId = auth.currentUser?.uid
 
-        val dataTransaction = databaseReference.child(userId.toString()+"s")
+        val dataTransaction = databaseReferenceTransaction.child(userId.toString()+"s")
 
         dataTransaction.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(transaction: DataSnapshot) {
@@ -65,6 +66,33 @@ class MyLockerFragment : Fragment() {
                             }
                         }
                     rv_my_locker.adapter = transactionAdapter
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    fun endLocker(id : Long?){
+        //ambil data locker di firebase yang idnya di click
+        databaseReferenceLocker = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
+        val locker = databaseReferenceLocker.child(id.toString())
+
+        locker.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(locker: DataSnapshot) {
+                if (locker.value == null){
+                    Log.d("Locker", "Locker with id $id is not found")
+                } else {
+                    val lockerStatus = locker.child("Status").value
+                    if (lockerStatus == "Ready"){
+                        Log.d("LockerStatus", "Locker $id status already ready for book.")
+                    } else {
+                        //update status locker ke ready(supaya bisa di book orang lain)
+                        databaseReferenceLocker.child(id.toString()).child("Status").setValue("Ready")
+                    }
                 }
             }
 
