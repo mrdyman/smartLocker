@@ -31,4 +31,9 @@ class LockerAdapter (val Locker : ArrayList<Locker>) : RecyclerView.Adapter<Lock
         var mStatus = itemView.tv_locker_status
     }
 
+    fun dataChanged()
+    {
+        notifyDataSetChanged()
+    }
+
 }

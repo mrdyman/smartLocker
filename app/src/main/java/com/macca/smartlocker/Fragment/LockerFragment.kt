@@ -42,7 +42,7 @@ class LockerFragment : Fragment() {
 
         databaseReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
+                lockerList.clear()
                 if (dataSnapshot.exists()){
                     for (data in dataSnapshot.children){
                         //ambil data status locker (ready/booked)
@@ -56,7 +56,7 @@ class LockerFragment : Fragment() {
                             Log.d("lockerStatus", "Locker is Ready")
                         }
                     }
-                    rv_list_locker_available.adapter = lockerAdapter
+                    rv_list_locker_available?.adapter = lockerAdapter
                 }
             }
 

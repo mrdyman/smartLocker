@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
+import com.macca.smartlocker.Adapter.LockerAdapter
 import com.macca.smartlocker.Adapter.TransactionAdapter
 import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Transaction
@@ -88,10 +89,11 @@ class MyLockerFragment : Fragment() {
                 } else {
                     val lockerStatus = locker.child("Status").value
                     if (lockerStatus == "Ready"){
-                        Log.d("LockerStatus", "Locker $id status already ready for book.")
+                        Log.d("LockerStatus", "Locker status already ready for book.")
                     } else {
                         //update status locker ke ready(supaya bisa di book orang lain)
                         databaseReferenceLocker.child(id.toString()).child("Status").setValue("Ready")
+
                     }
                 }
             }
