@@ -145,7 +145,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_my_locker"
         android:layout_below="@id/tv_label_locker_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:listitem="@layout/list_my_locker" />
 
