@@ -45,7 +45,7 @@ class MyLockerFragment : Fragment() {
         val auth =  (activity as MainActivity).auth
         val userId = auth.currentUser?.uid
 
-        val dataTransaction = databaseReferenceTransaction.child(userId.toString()+"s")
+        val dataTransaction = databaseReferenceTransaction.child(userId.toString())
 
         dataTransaction.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(transaction: DataSnapshot) {
@@ -57,7 +57,7 @@ class MyLockerFragment : Fragment() {
                     //lakukan looping data transaksi berdasarkan user yang login
                         for (mTransaction in transaction.children){
                             //ambil data status transaksi (running/completed)
-                            val lockerStatus = mTransaction.child("Transaction_Status").value
+                            val lockerStatus = mTransaction.child("transaction_Status").value
 
                             //cek, kalo status transaksi = running, tampilkan ke recyclerview
                             if (lockerStatus == "Running") {

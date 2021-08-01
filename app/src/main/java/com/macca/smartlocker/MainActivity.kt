@@ -58,17 +58,4 @@ class MainActivity : AppCompatActivity() {
         fr.commit()
         true
     }
-
-    fun showTimePicker(context : Context, id: Long?){
-        Log.d("TimePicker", "Time Picker is called id = $id")
-//        val dialog = Dialog(context)
-//        dialog.setContentView(R.layout.time_picker_dialog)
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-        MaterialAlertDialogBuilder(context, R.style.Base_ThemeOverlay_MaterialComponents_Dialog)
-            .setView(R.layout.time_picker_dialog)
-            .setBackground(ColorDrawable(Color.TRANSPARENT))
-            .show()
-    }
 }

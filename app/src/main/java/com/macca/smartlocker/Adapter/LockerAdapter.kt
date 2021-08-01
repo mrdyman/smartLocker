@@ -46,8 +46,6 @@ class LockerAdapter (val Locker : ArrayList<Locker>) : RecyclerView.Adapter<Lock
     private fun showTimePicker(context : Context, idLocker: Long?) {
         lockerFragment = LockerFragment()
         lockerFragment.showDialog(context ,idLocker)
-//        mainActivity = MainActivity()
-//        mainActivity.showTimePicker(context, idLocker)
     }
 
 }

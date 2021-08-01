@@ -10,22 +10,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.macca.smartlocker.Adapter.LockerAdapter
+import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Locker
+import com.macca.smartlocker.Model.Transaction
+import com.macca.smartlocker.Model.User
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.fragment_locker.*
 import kotlinx.android.synthetic.main.time_picker_dialog.*
+import java.sql.Timestamp
 
 class LockerFragment : Fragment() {
 
     private lateinit var lockerAdapter : LockerAdapter
     private lateinit var databaseReference : DatabaseReference
+    private lateinit var databaseReferenceTransaction : DatabaseReference
     private lateinit var lockerList : ArrayList<Locker>
+    lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -91,9 +99,45 @@ class LockerFragment : Fragment() {
         }
 
         dialog.btn_dialog_pay.setOnClickListener {
-            Log.d("Buttons", "Button pay clicked. id_locker = $id, time = ${tvTime.text} ")
+            val timeLocker = tvTime.text.toString()
+            Log.d("Buttons", "Button pay clicked. id_locker = $id, time = $timeLocker ")
+            payLocker(id, timeLocker)
         }
 
         dialog.show()
+    }
+
+    private fun payLocker(id: Long?, timeLocker: String) {
+        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+
+        val lockerId = id
+        val mulai = "jam sekarang"
+        val selesai = "jam berakhir"
+        val waktu = timeLocker
+        val namaLocker = "Locker "+ id.toString()
+        val lockerStatus = "CLOSED"
+        val transactionStatus = "Running"
+
+        val data = Transaction(userId, lockerId, mulai, namaLocker, selesai, lockerStatus, transactionStatus, waktu)
+        val transaction = databaseReferenceTransaction.child(userId.toString())
+        transaction.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val transactionId = dataSnapshot.childrenCount + 1
+
+                transaction.child(transactionId.toString()).setValue(data).addOnSuccessListener {
+                    Log.d("transactionStatus", "Successfully pay locker.")
+                } .addOnFailureListener {
+                    Log.d("transactionStatus", "Failed to pay locker.")
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("databaseError", "database error with message : ${databaseError.message}")
+            }
+
+        })
     }
 }
