@@ -33,7 +33,7 @@ class LockerFragment : Fragment() {
     private lateinit var databaseReference : DatabaseReference
     private lateinit var databaseReferenceTransaction : DatabaseReference
     private lateinit var lockerList : ArrayList<Locker>
-    lateinit var auth: FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment

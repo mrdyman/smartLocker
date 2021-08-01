@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.list_available_locker.view.*
 
 class LockerAdapter (val Locker : ArrayList<Locker>) : RecyclerView.Adapter<LockerAdapter.LockerHolder>() {
 
-    private lateinit var mainActivity : MainActivity
     private lateinit var lockerFragment: LockerFragment
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LockerHolder {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.macca.smartlocker.Adapter.LockerAdapter
 import com.macca.smartlocker.Adapter.TransactionAdapter
@@ -22,6 +23,7 @@ class MyLockerFragment : Fragment() {
     private lateinit var databaseReferenceTransaction : DatabaseReference
     private lateinit var databaseReferenceLocker : DatabaseReference
     private lateinit var myLockerList : ArrayList<Transaction>
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -47,9 +49,10 @@ class MyLockerFragment : Fragment() {
 
         val dataTransaction = databaseReferenceTransaction.child(userId.toString())
 
-        dataTransaction.addListenerForSingleValueEvent(object : ValueEventListener{
+        dataTransaction.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(transaction: DataSnapshot) {
-                if (transaction.value == null){
+                myLockerList.clear()
+                if (!transaction.exists()){
                     //data transaksi dengan user Id ini tidak ditemukan
                     Log.d("dataTransaction", "Data not found.")
                 } else {
@@ -67,7 +70,7 @@ class MyLockerFragment : Fragment() {
                                 Log.d("transactionStatus", "Transaction is Running")
                             }
                         }
-                    rv_my_locker.adapter = transactionAdapter
+                    rv_my_locker?.adapter = transactionAdapter
                 }
             }
 
@@ -106,12 +109,32 @@ class MyLockerFragment : Fragment() {
         })
 
         //update status transaksi menjadi completed
-//        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
-//
-//        val auth =  (activity as MainActivity).auth
-//        val userId = auth.currentUser?.uid
-////        val transactionId = databaseReferenceTransaction
-//
-//        val dataTransaction = databaseReferenceTransaction.child(userId.toString()+"s").child("")
+        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+
+        val dataTransaction = databaseReferenceTransaction.child(userId.toString())
+        dataTransaction.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (data in dataSnapshot.children){
+                        val transactionId = data.key.toString()
+                        val idLocker = data.child("id_Locker").value
+                        if (idLocker == id){
+                            val lockerStatus = data.child("transaction_Status").value
+                            if (lockerStatus == "Running"){
+                                dataTransaction.child(transactionId).child("transaction_Status").setValue("Completed")
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }
