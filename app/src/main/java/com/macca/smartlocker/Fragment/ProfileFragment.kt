@@ -52,7 +52,7 @@ class ProfileFragment : Fragment() {
                             val kodePos = mUser.child("kodePos").value
 
                             //assign data dari firebase ke textview profile
-                            tv_user_login_name_profile.text = namaUser.toString()
+                            tv_user_login_name_profile.text = "Hi, "+ namaUser.toString()
                             tv_user_login_address_profile.text = alamat.toString()
                             tv_profile_nama.text = namaUser.toString()
                             tv_profile_email.text = email.toString()
