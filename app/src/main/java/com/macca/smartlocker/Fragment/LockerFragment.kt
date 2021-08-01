@@ -1,19 +1,25 @@
 package com.macca.smartlocker.Fragment
 
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.*
 import com.macca.smartlocker.Adapter.LockerAdapter
 import com.macca.smartlocker.Model.Locker
-import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_locker.*
+import kotlinx.android.synthetic.main.time_picker_dialog.*
 
 class LockerFragment : Fragment() {
 
@@ -65,5 +71,29 @@ class LockerFragment : Fragment() {
             }
 
         })
+    }
+
+    fun showDialog(context: Context, id: Long?) {
+        Log.d("TimePicker", "Time Picker is called id = $id")
+
+        val dialog = Dialog(context)
+
+        dialog.setContentView(R.layout.time_picker_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val lockerTime = arrayOf("30 Menit", "1 Jam", "2 Jam")
+        val adapter = ArrayAdapter(context, R.layout.dropdown_locker_time, lockerTime)
+        val tvTime = dialog.tv_locker_time
+        tvTime.setAdapter(adapter)
+
+        dialog.btn_dialog_cancel.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialog.btn_dialog_pay.setOnClickListener {
+            Log.d("Buttons", "Button pay clicked. id_locker = $id, time = ${tvTime.text} ")
+        }
+
+        dialog.show()
     }
 }

@@ -28,7 +28,6 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
         holder.namaLocker.text = transaction.Nama_Locker
         holder.mStatus.text = transaction.Locker_Status
         holder.btnSetting.setOnClickListener {
-            Log.d("idend", "asdsadasdasd")
             val namaLocker = transaction.Nama_Locker
             val mulai = transaction.Mulai
             val selesai = transaction.Selesai

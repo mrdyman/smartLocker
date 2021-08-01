@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
 import com.macca.smartlocker.Adapter.LockerAdapter
@@ -82,6 +83,7 @@ class MyLockerFragment : Fragment() {
         databaseReferenceLocker = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
         val locker = databaseReferenceLocker.child(id.toString())
 
+        //update status locker
         locker.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(locker: DataSnapshot) {
                 if (locker.value == null){
@@ -93,7 +95,6 @@ class MyLockerFragment : Fragment() {
                     } else {
                         //update status locker ke ready(supaya bisa di book orang lain)
                         databaseReferenceLocker.child(id.toString()).child("Status").setValue("Ready")
-
                     }
                 }
             }
@@ -103,5 +104,14 @@ class MyLockerFragment : Fragment() {
             }
 
         })
+
+        //update status transaksi menjadi completed
+//        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+//
+//        val auth =  (activity as MainActivity).auth
+//        val userId = auth.currentUser?.uid
+////        val transactionId = databaseReferenceTransaction
+//
+//        val dataTransaction = databaseReferenceTransaction.child(userId.toString()+"s").child("")
     }
 }
