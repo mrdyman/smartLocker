@@ -14,6 +14,7 @@ import com.macca.smartlocker.Adapter.LockerAdapter
 import com.macca.smartlocker.Adapter.TransactionAdapter
 import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Transaction
+import com.macca.smartlocker.Model.User
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -22,6 +23,7 @@ class MyLockerFragment : Fragment() {
     private lateinit var transactionAdapter : TransactionAdapter
     private lateinit var databaseReferenceTransaction : DatabaseReference
     private lateinit var databaseReferenceLocker : DatabaseReference
+    private lateinit var databaseReferenceUser : DatabaseReference
     private lateinit var myLockerList : ArrayList<Transaction>
     private lateinit var auth: FirebaseAuth
 
@@ -39,6 +41,36 @@ class MyLockerFragment : Fragment() {
         rv_my_locker.layoutManager = LinearLayoutManager(activity)
         rv_my_locker.adapter = transactionAdapter
         getMyLocker()
+        getUserData()
+    }
+
+    private fun getUserData(){
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        databaseReferenceUser = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+
+        databaseReferenceUser.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(user: DataSnapshot) {
+                if (user.exists()){
+                    for (mUser in user.children){
+                        val mUserId = mUser.child("user_Id").value
+                        if (userId.toString() == mUserId.toString()){
+                            val namaUser = mUser.child("nama_lengkap").value
+                            val alamat = mUser.child("alamat").value
+
+                            //assign data dari firebase ke textview
+                            tv_user_login_name?.text = namaUser.toString()
+                            tv_user_login_address?.text = alamat.toString()
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(dataBaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun getMyLocker() {
