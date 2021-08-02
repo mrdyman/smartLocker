@@ -151,5 +151,30 @@
         android:layout_height="wrap_content"
         tools:listitem="@layout/list_my_locker" />
 
+    <RelativeLayout
+        android:id="@+id/rl_empty_data"
+        android:visibility="gone"
+        android:layout_below="@+id/tv_label_locker_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:src="@drawable/locker_illustration"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tidak ada apapun disini."
+            android:gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

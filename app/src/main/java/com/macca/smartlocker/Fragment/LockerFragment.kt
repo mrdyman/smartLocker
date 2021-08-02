@@ -71,6 +71,13 @@ class LockerFragment : Fragment() {
                         }
                     }
                     rv_list_locker_available?.adapter = lockerAdapter
+
+                    if (lockerList.isEmpty()){
+                        rl_empty_data_locker?.visibility = View.VISIBLE
+                    } else {
+                        rl_empty_data_locker?.visibility = View.GONE
+                    }
+
                 }
             }
 
