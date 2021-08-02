@@ -178,6 +178,7 @@
                         android:layout_marginTop="10dp">
 
                         <ImageView
+                            android:id="@+id/iv_edit_profile"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/ic_edit"/>
@@ -296,6 +297,144 @@
 
                     </LinearLayout>
 
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginTop="-50dp"
+        android:id="@+id/ll_cv_profile_edit_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_profile_bg">
+
+
+        <LinearLayout
+            android:layout_marginTop="-25dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_margin="35dp"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/ll_label_edit_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Edit Profile"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/purple_700"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_edit_line"
+                        android:layout_below="@+id/ll_label_edit_profile"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#EFEEF3"/>
+
+                    <LinearLayout
+                        android:layout_below="@+id/iv_edit_line"
+                        android:id="@+id/ll_label_edit_data_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="7dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:hint="Masukkan Nama"
+                            app:startIconDrawable="@drawable/ic_user"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_edit_nama"
+                                android:padding="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="7dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:hint="Alamat"
+                            app:startIconDrawable="@drawable/ic_location"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_edit_alamat"
+                                android:padding="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:hint="Kode Pos"
+                            app:startIconDrawable="@drawable/ic_kode_pos"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_edit_kode_pos"
+                                android:padding="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:id="@+id/iv_edit_mode_profile"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_save"
+                            app:tint="@color/purple_500" />
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 

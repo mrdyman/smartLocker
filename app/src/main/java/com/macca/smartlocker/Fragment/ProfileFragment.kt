@@ -32,7 +32,20 @@ class ProfileFragment : Fragment() {
             val i = Intent(requireActivity(), LoginActivity::class.java)
             startActivity(i)
         }
+        editButtonListener()
         getUserData()
+    }
+
+    private fun editButtonListener() {
+        iv_edit_profile.setOnClickListener {
+            ll_cv_profile_edit_container.visibility = View.VISIBLE
+            ll_cv_profile_container.visibility = View.GONE
+        }
+
+        iv_edit_mode_profile.setOnClickListener {
+            ll_cv_profile_edit_container.visibility = View.GONE
+            ll_cv_profile_container.visibility = View.VISIBLE
+        }
     }
 
     private fun getUserData() {
