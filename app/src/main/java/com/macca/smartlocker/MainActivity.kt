@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
+import com.macca.smartlocker.Fragment.HistoryFragment
 import com.macca.smartlocker.Fragment.LockerFragment
 import com.macca.smartlocker.Fragment.MyLockerFragment
 import com.macca.smartlocker.Fragment.ProfileFragment
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 selectedFr = LockerFragment()
             }
             R.id.nav_history -> {
-                selectedFr = LockerFragment()
+                selectedFr = HistoryFragment()
             }
             R.id.nav_profile -> {
                 selectedFr = ProfileFragment()
