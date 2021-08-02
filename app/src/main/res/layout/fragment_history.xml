@@ -7,7 +7,21 @@
     tools:context=".Fragment.HistoryFragment"
     android:orientation="vertical">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/img_history"/>
+
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.material.tabs.TabLayout
+        android:layout_below="@+id/cv_history"
         android:id="@+id/tl_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
