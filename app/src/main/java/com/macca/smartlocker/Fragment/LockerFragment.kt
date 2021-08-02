@@ -129,6 +129,8 @@ class LockerFragment : Fragment() {
 
                 transaction.child(transactionId.toString()).setValue(data).addOnSuccessListener {
                     Log.d("transactionStatus", "Successfully pay locker.")
+                    //update status locker to booked
+                    updateLockerStatus(id)
                 } .addOnFailureListener {
                     Log.d("transactionStatus", "Failed to pay locker.")
                 }
@@ -136,6 +138,33 @@ class LockerFragment : Fragment() {
 
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.d("databaseError", "database error with message : ${databaseError.message}")
+            }
+
+        })
+    }
+
+    private fun updateLockerStatus(id: Long?){
+        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
+        val locker = databaseReference.child(id.toString())
+
+        //update status locker
+        locker.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(locker: DataSnapshot) {
+                if (!locker.exists()){
+                    Log.d("Locker", "Locker with id $id is not found")
+                } else {
+                    val lockerStatus = locker.child("Status").value
+                    if (lockerStatus == "Booked"){
+                        Log.d("LockerStatus", "Locker status already booked.")
+                    } else {
+                        //update status locker ke ready(supaya bisa di book orang lain)
+                        databaseReference.child(id.toString()).child("Status").setValue("Booked")
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
             }
 
         })
