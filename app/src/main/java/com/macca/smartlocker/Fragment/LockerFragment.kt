@@ -2,6 +2,7 @@ package com.macca.smartlocker.Fragment
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Locker
 import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.Model.User
+import com.macca.smartlocker.Payments.PaymentActivity
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.fragment_locker.*
 import kotlinx.android.synthetic.main.time_picker_dialog.*
@@ -108,7 +110,9 @@ class LockerFragment : Fragment() {
         dialog.btn_dialog_pay.setOnClickListener {
             val timeLocker = tvTime.text.toString()
             Log.d("Buttons", "Button pay clicked. id_locker = $id, time = $timeLocker ")
-            payLocker(id, timeLocker)
+            val i = Intent(context, PaymentActivity::class.java)
+            context.startActivity(i)
+        //payLocker(id, timeLocker)
         }
 
         dialog.show()

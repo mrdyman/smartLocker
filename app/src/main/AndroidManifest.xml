@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.macca.smartlocker">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -8,8 +12,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup, android:usesCleartextTraffic"
         android:theme="@style/Theme.SmartLocker">
-        <activity android:name=".SettingLockerActivity"></activity>
+        <activity android:name=".Payments.PaymentActivity"></activity>
+        <activity android:name=".SettingLockerActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity">

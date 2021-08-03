@@ -50,4 +50,7 @@ dependencies {
 
     //material design
     implementation 'com.google.android.material:material:1.4.0'
+
+    //midtrans
+    implementation 'com.midtrans:uikit:1.29.0-SANDBOX'
 }
