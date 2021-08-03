@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.TransactionPendingFragment">
 
-    <TextView
-        android:gravity="center"
+    <RelativeLayout
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:id="@+id/rl_empty_data_locker"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="pending" />
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:src="@drawable/locker_illustration"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tidak ada apapun disini."
+            android:gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/list_pending_transaction"/>
+
+</RelativeLayout>
