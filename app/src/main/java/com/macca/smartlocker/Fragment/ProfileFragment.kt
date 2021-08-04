@@ -57,20 +57,26 @@ class ProfileFragment : Fragment() {
             override fun onDataChange(user: DataSnapshot) {
                 if (user.exists()){
                     for (mUser in user.children){
-                        val mUserId = mUser.child("user_Id").value
+                        val mUserId = mUser.child("user_id").value
                         if (userId.toString() == mUserId.toString()){
-                            val namaUser = mUser.child("nama_lengkap").value
+                            val namaDepan = mUser.child("nama_depan").value
+                            val namaBelakang = mUser.child("nama_belakang").value
+                            val namaUser = "$namaDepan"+ " " + "$namaBelakang"
                             val alamat = mUser.child("alamat").value
                             val email = mUser.child("email").value
-                            val kodePos = mUser.child("kodePos").value
+                            val kodePos = mUser.child("kode_pos").value
+                            val kota = mUser.child("kota").value
+                            val phone = mUser.child("phone").value
 
                             //assign data dari firebase ke textview profile
-                            tv_user_login_name_profile.text = "Hi, "+ namaUser.toString()
+                            tv_user_login_name_profile.text = "Hi, "+ namaDepan
                             tv_user_login_address_profile.text = alamat.toString()
                             tv_profile_nama.text = namaUser.toString()
                             tv_profile_email.text = email.toString()
                             tv_profile_address.text = alamat.toString()
                             tv_profile_kode_pos.text = kodePos.toString()
+                            tv_profile_kota.text = kota.toString()
+                            tv_profile_phone_number.text = phone.toString()
                         }
                     }
                 }

@@ -1,3 +1,12 @@
 package com.macca.smartlocker.Model
 
-data class User(val nama_lengkap : String? = null, val email : String? = null, val alamat : String? = null, val kodePos: String? = null, val User_Id : String? = null)
+data class User(
+    val alamat: String? = null,
+    val email: String? = null,
+    val kode_pos: String? = null,
+    val kota: String? = null,
+    val nama_belakang: String? = null,
+    val nama_depan: String? = null,
+    val phone: String? = null,
+    val user_id: String? = null
+)

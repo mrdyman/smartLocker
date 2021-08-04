@@ -90,7 +90,7 @@ class LockerFragment : Fragment() {
         })
     }
 
-    fun showDialog(context: Context, id: Long?) {
+    fun showDialog(context: Context, id: Long?, namaLocker : String?) {
         Log.d("TimePicker", "Time Picker is called id = $id")
 
         val dialog = Dialog(context)
@@ -98,7 +98,7 @@ class LockerFragment : Fragment() {
         dialog.setContentView(R.layout.time_picker_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val lockerTime = arrayOf("30 Menit", "1 Jam", "2 Jam")
+        val lockerTime = arrayOf("30 Menit", "60 Menit", "120 Menit")
         val adapter = ArrayAdapter(context, R.layout.dropdown_locker_time, lockerTime)
         val tvTime = dialog.tv_locker_time
         tvTime.setAdapter(adapter)
@@ -111,6 +111,8 @@ class LockerFragment : Fragment() {
             val timeLocker = tvTime.text.toString()
             Log.d("Buttons", "Button pay clicked. id_locker = $id, time = $timeLocker ")
             val i = Intent(context, PaymentActivity::class.java)
+            i.putExtra("namaLocker", namaLocker)
+            i.putExtra("durasi", tvTime.text.toString())
             context.startActivity(i)
         //payLocker(id, timeLocker)
         }

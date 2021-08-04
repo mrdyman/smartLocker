@@ -74,7 +74,7 @@
                         android:layout_marginStart="10dp"
                         app:cornerRadius="10dp"
                         android:layout_marginEnd="10dp"
-                        android:text="Bayar Sekarang"/>
+                        android:text="Checkout"/>
 
                 </LinearLayout>
 

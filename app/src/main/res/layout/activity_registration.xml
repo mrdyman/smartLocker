@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".RegistrationActivity">
 
 
     <RelativeLayout
@@ -18,7 +17,7 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@drawable/wave"
-            app:tint="@color/purple_700"/>
+            app:tint="@color/purple_700" />
 
         <TextView
             android:id="@+id/tv_welcome"
@@ -45,244 +44,367 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/blue_border_rounded_cornwe">
+        android:scrollbars="none">
 
 
-        <EditText
-            android:id="@+id/et_nama"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ic_nama"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/helvetica"
-            android:hint="Nama"
-            android:inputType="text"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:paddingStart="17dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/ic_nama"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="17dp"
-            android:src="@drawable/ic_user" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/blue_border_rounded_cornwe">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ic_email"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/helvetica"
-            android:hint="Username/Email"
-            android:inputType="textEmailAddress"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:paddingStart="17dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/ic_email"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="17dp"
-            android:src="@drawable/ic_email" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/blue_border_rounded_cornwe">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
 
 
-        <EditText
-            android:id="@+id/et_alamat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ic_alamat"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/helvetica"
-            android:hint="Alamat"
-            android:inputType="text"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:paddingStart="17dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="15sp" />
+                <EditText
+                    android:id="@+id/et_nama_depan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_nama_depan"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Nama Depan"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
 
-        <ImageView
-            android:id="@+id/ic_alamat"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="17dp"
-            android:src="@drawable/ic_location" />
+                <ImageView
+                    android:id="@+id/ic_nama_depan"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_user" />
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/blue_border_rounded_cornwe">
-
-
-        <EditText
-            android:id="@+id/et_kode_pos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ic_kode_pos"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/helvetica"
-            android:hint="Kode Pos"
-            android:inputType="number"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:paddingStart="17dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/ic_kode_pos"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="17dp"
-            android:src="@drawable/ic_pin_drop" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/blue_border_rounded_cornwe">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
 
 
-        <EditText
-            android:id="@+id/et_pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ic_pass"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/helvetica"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:paddingStart="17dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="15sp" />
+                <EditText
+                    android:id="@+id/et_nama_belakang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_nama_belakang"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Nama Belakang"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
 
-        <ImageView
-            android:id="@+id/ic_pass"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="17dp"
-            android:src="@drawable/ic_key" />
+                <ImageView
+                    android:id="@+id/ic_nama_belakang"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_user" />
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/blue_border_rounded_cornwe">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
 
 
-        <EditText
-            android:id="@+id/et_pass1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ic_pass1"
-            android:background="#00FFFFFF"
-            android:fontFamily="@font/helvetica"
-            android:hint="Retype Password"
-            android:inputType="textPassword"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:paddingStart="17dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="15sp" />
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_email"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Username/Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
 
-        <ImageView
-            android:id="@+id/ic_pass1"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="17dp"
-            android:src="@drawable/ic_key" />
+                <ImageView
+                    android:id="@+id/ic_email"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_email" />
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_marginTop="10dp"
-        android:id="@+id/btn_signup"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:text="Signup"
-        app:cornerRadius="20dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_signup_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Login"
-            android:textColor="@color/purple_700" />
+                <EditText
+                    android:id="@+id/et_alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_alamat"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Alamat Rumah"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/ic_alamat"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_location" />
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
+
+
+                <EditText
+                    android:id="@+id/et_kota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_kota"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Kota"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/ic_kota"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_location" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
+
+
+                <EditText
+                    android:id="@+id/et_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_phone"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="No. Hp"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/ic_phone"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_location" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
+
+
+                <EditText
+                    android:id="@+id/et_kode_pos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_kode_pos"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Kode Pos"
+                    android:inputType="number"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/ic_kode_pos"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_pin_drop" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
+
+
+                <EditText
+                    android:id="@+id/et_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_pass"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/ic_pass"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_key" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/blue_border_rounded_cornwe">
+
+
+                <EditText
+                    android:id="@+id/et_pass1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ic_pass1"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/helvetica"
+                    android:hint="Retype Password"
+                    android:inputType="textPassword"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/ic_pass1"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:src="@drawable/ic_key" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_signup"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Signup"
+                app:cornerRadius="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="30dp">
+
+                <TextView
+                    android:id="@+id/tv_signup_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Login"
+                    android:textColor="@color/purple_700" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

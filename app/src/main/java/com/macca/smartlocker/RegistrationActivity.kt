@@ -22,10 +22,13 @@ class RegistrationActivity : AppCompatActivity() {
         btn_signup.setOnClickListener {
 
             //ambil data user yang di input
-            val nama = et_nama.text.toString()
+            val namaDepan = et_nama_depan.text.toString()
+            val namaBelakang = et_nama_belakang.text.toString()
             val email = et_email.text.toString()
             val alamat = et_alamat.text.toString()
+            val kota = et_kota.text.toString()
             val kodePos = et_kode_pos.text.toString()
+            val phone = et_phone_number.text.toString()
             val password = et_pass.text.toString()
             val password1 = et_pass1.text.toString()
 
@@ -43,14 +46,17 @@ class RegistrationActivity : AppCompatActivity() {
 
                         //insert data user ke database
                         database = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
-                        val user = User(nama, email, alamat, kodePos, userId.toString())
-                        database.child(nama).setValue(user).addOnSuccessListener {
+                        val user = User(alamat, email, kodePos, kota, namaBelakang, namaDepan, phone, userId.toString())
+                        database.child(namaDepan).setValue(user).addOnSuccessListener {
 
                             //clear field registrasi
-                            et_nama.text.clear()
+                            et_nama_depan.text.clear()
+                            et_nama_belakang.text.clear()
                             et_email.text.clear()
                             et_alamat.text.clear()
+                            et_kota.text.clear()
                             et_kode_pos.text.clear()
+                            et_phone_number.text.clear()
                             et_pass.text.clear()
                             et_pass1.text.clear()
 

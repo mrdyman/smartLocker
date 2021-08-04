@@ -54,9 +54,11 @@ class MyLockerFragment : Fragment() {
             override fun onDataChange(user: DataSnapshot) {
                 if (user.exists()){
                     for (mUser in user.children){
-                        val mUserId = mUser.child("user_Id").value
+                        val mUserId = mUser.child("user_id").value
                         if (userId.toString() == mUserId.toString()){
-                            val namaUser = mUser.child("nama_lengkap").value
+                            val namaDepan = mUser.child("nama_depan").value
+                            val namaBelakang = mUser.child("nama_belakang").value
+                            val namaUser = "$namaDepan" + " " + "$namaBelakang"
                             val alamat = mUser.child("alamat").value
 
                             //assign data dari firebase ke textview

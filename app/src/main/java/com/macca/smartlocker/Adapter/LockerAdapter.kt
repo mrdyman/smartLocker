@@ -28,7 +28,8 @@ class LockerAdapter (val Locker : ArrayList<Locker>) : RecyclerView.Adapter<Lock
 
         holder.btnAddtoCart.setOnClickListener {
             val idLocker = locker.Id
-            showTimePicker(holder.itemView.context,idLocker)
+            val namaLocker = locker.Nama
+            showTimePicker(holder.itemView.context,idLocker, namaLocker)
         }
     }
 
@@ -42,9 +43,9 @@ class LockerAdapter (val Locker : ArrayList<Locker>) : RecyclerView.Adapter<Lock
         var btnAddtoCart = itemView.btn_add_to_cart
     }
 
-    private fun showTimePicker(context : Context, idLocker: Long?) {
+    private fun showTimePicker(context : Context, idLocker: Long?, namaLocker : String?) {
         lockerFragment = LockerFragment()
-        lockerFragment.showDialog(context ,idLocker)
+        lockerFragment.showDialog(context ,idLocker, namaLocker)
     }
 
 }

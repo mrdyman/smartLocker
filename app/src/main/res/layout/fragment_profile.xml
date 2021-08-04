@@ -105,6 +105,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="visible"
         android:layout_marginTop="-50dp"
         android:id="@+id/ll_cv_profile_container"
         android:layout_width="match_parent"
@@ -120,7 +121,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_margin="35dp"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="365dp"
                 app:cardCornerRadius="10dp">
 
                 <RelativeLayout
@@ -267,9 +268,40 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_kode_pos"
                         android:layout_marginTop="10dp"
                         android:layout_below="@+id/ll_alamat"
+                        android:id="@+id/ll_label_kota"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="KOTA"
+                            android:layout_marginStart="10dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_kota"
+                        android:layout_below="@+id/ll_label_kota"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_profile_kota"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Palu"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_kode_pos"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/ll_kota"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
@@ -292,6 +324,37 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="94118"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_phone_number"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/ll_label_kode_post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NO. HP"
+                            android:layout_marginStart="10dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_label_phone_number"
+                        android:layout_below="@+id/ll_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_profile_phone_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="081322899246"
                             android:layout_marginStart="10dp"
                             android:textColor="@color/black"/>
 
@@ -324,7 +387,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_margin="35dp"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="410dp"
                 app:cardCornerRadius="10dp">
 
                 <RelativeLayout
@@ -366,16 +429,15 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="7dp"
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:hint="Masukkan Nama"
+                            android:hint="Nama Depan"
                             app:startIconDrawable="@drawable/ic_user"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/tv_edit_nama"
+                                android:id="@+id/tv_edit_nama_depan"
                                 android:padding="12dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
@@ -385,10 +447,28 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="7dp"
+                            android:layout_marginTop="5dp"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:hint="Alamat"
+                            android:hint="Nama Belakang"
+                            app:startIconDrawable="@drawable/ic_user"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_edit_nama_belakang"
+                                android:padding="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:hint="Alamat Rumah"
                             app:startIconDrawable="@drawable/ic_location"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -403,6 +483,25 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:hint="Kota"
+                            app:startIconDrawable="@drawable/ic_location"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_edit_kota"
+                                android:padding="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:hint="Kode Pos"
@@ -411,6 +510,24 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/tv_edit_kode_pos"
+                                android:padding="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="5dp"
+                            android:hint="No. Hp"
+                            app:startIconDrawable="@drawable/ic_phone"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tv_edit_phone_number"
                                 android:padding="12dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
