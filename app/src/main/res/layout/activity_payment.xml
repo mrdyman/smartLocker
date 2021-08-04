@@ -143,6 +143,16 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_transaction_back_to_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to home"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_home"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

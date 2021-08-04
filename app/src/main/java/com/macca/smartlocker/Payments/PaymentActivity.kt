@@ -4,7 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.R
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
 import com.midtrans.sdk.corekit.core.MidtransSDK
@@ -22,36 +25,16 @@ import kotlinx.android.synthetic.main.activity_payment.*
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var auth : FirebaseAuth
+    private lateinit var databaseReference : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
+        midtransInit()
+
         val transactionId = "MaccaLab-"+ System.currentTimeMillis().toString()
         displayDetailTransaction(transactionId)
-
-
-        SdkUIFlowBuilder.init()
-            .setClientKey("SB-Mid-client-VC8itBKdhlacu-pD")
-            .setContext(applicationContext)
-            .setTransactionFinishedCallback(TransactionFinishedCallback {
-                result ->
-                if (result.status == "success"){
-                    //put logic here when transaction is success
-                    Log.d("MidtransLog", "transaction is successful")
-                } else if (result.status == "pending"){
-                    //put logic here when transaction is pending
-                    Log.d("MidtransLog", "transaction is pending")
-                } else if (result.status == "failed"){
-                    //put logic here when transaction is failed
-                    Log.d("MidtransLog", "transaction is failed")
-                }
-            })
-            .setMerchantBaseUrl("http://192.168.43.26:80/smartlocker/index.php/")
-            .enableLog(true)
-            .setColorTheme(CustomColorTheme("#FF3700B3", "#FF3700B3", "#FF3700B3"))
-            .setLanguage("id")
-            .buildSDK()
 
         btn_pesan.setOnClickListener {
             val transactionRequest = TransactionRequest(transactionId, 10000.00)
@@ -70,6 +53,67 @@ class PaymentActivity : AppCompatActivity() {
         btn_edit_pesanan.setOnClickListener {
             this.onBackPressed()
         }
+
+        btn_transaction_back_to_home.setOnClickListener {
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+            finish()
+        }
+
+        //get data user ke firebase
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+
+        databaseReference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(user: DataSnapshot) {
+                if (user.exists()){
+                    for (mUser in user.children){
+                        val mUserId = mUser.child("user_id").value
+                        if (userId.toString() == mUserId.toString()){
+                            val firstName = mUser.child("nama_depan").value
+                            val lastName = mUser.child("nama_belakang").value
+                            val email = mUser.child("email").value
+                            val alamat = mUser.child("alamat").value
+                            val city = mUser.child("kota").value
+                            val postalCode = mUser.child("kode_pos").value
+                            val phoneNumber = mUser.child("phone").value
+                        }
+                    }
+                } else {
+                    Log.d("paymentActivity", "Failed to get user data from firebase")
+                }
+            }
+
+            override fun onCancelled(dataBaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun midtransInit(){
+        SdkUIFlowBuilder.init()
+            .setClientKey("SB-Mid-client-VC8itBKdhlacu-pD")
+            .setContext(applicationContext)
+            .setTransactionFinishedCallback(TransactionFinishedCallback {
+                    result ->
+                if (result.status == "success"){
+                    //put logic here when transaction is success
+                    Log.d("MidtransLog", "transaction is successful")
+                } else if (result.status == "pending"){
+                    //put logic here when transaction is pending
+                    Log.d("MidtransLog", "transaction is pending")
+                } else if (result.status == "failed"){
+                    //put logic here when transaction is failed
+                    Log.d("MidtransLog", "transaction is failed")
+                }
+            })
+            .setMerchantBaseUrl("http://192.168.43.26:80/smartlocker/index.php/")
+            .enableLog(true)
+            .setColorTheme(CustomColorTheme("#FF3700B3", "#FF3700B3", "#FF3700B3"))
+            .setLanguage("id")
+            .buildSDK()
     }
 
     private fun transactionDetail(transactionRequest: TransactionRequest) {
