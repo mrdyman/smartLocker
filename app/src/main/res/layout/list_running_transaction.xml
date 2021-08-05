@@ -88,8 +88,9 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="2dp"
                 android:id="@+id/ll_dot"
-                android:layout_marginStart="-30dp"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/ll_pending_left"
                 android:layout_below="@+id/ll_running"
                 android:layout_width="wrap_content"
@@ -120,6 +121,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="2dp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/ll_dot"
                 android:layout_below="@+id/ll_running"
@@ -128,6 +130,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_start_time_transaction_running"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
@@ -135,6 +138,7 @@
                     android:fontFamily="@font/poppins_regular"/>
 
                 <TextView
+                    android:id="@+id/tv_end_time_transaction_running"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
@@ -142,6 +146,7 @@
                     android:fontFamily="@font/poppins_regular"/>
 
                 <TextView
+                    android:id="@+id/tv_total_time_transaction_running"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"

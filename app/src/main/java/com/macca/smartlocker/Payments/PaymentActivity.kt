@@ -1,5 +1,6 @@
 package com.macca.smartlocker.Payments
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -31,68 +32,33 @@ class PaymentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        midtransInit()
-
+        //create transaction unique id
         val transactionId = "MaccaLab-"+ System.currentTimeMillis().toString()
-        displayDetailTransaction(transactionId)
 
-        btn_pesan.setOnClickListener {
-            val transactionRequest = TransactionRequest(transactionId, 10000.00)
-            val itemDetails = ItemDetails("ItemId", 10000.00, 1, "Locker-1")
-            val itemDetailList = ArrayList<ItemDetails>()
-            itemDetailList.add(itemDetails)
+        //get lockerId data (used to fill ItemId)
+        val itemId = this.intent.getStringExtra("idLocker")
 
-            transactionDetail(transactionRequest)
-            transactionRequest.itemDetails = itemDetailList
+        //get nama locker (used to fill itemName)
+        val itemName = this.intent.getStringExtra("namaLocker")
 
-            MidtransSDK.getInstance().transactionRequest = transactionRequest
+        //get durasi locker
+        val durasi = this.intent.getStringExtra("durasi")
 
-            MidtransSDK.getInstance().startPaymentUiFlow(this)
-        }
+        //initialize midtrans
+        midtransInit(itemId!!, durasi!!)
 
-        btn_edit_pesanan.setOnClickListener {
-            this.onBackPressed()
-        }
+        //call function to display detail transaction
+        displayDetailTransaction(transactionId, durasi)
 
-        btn_transaction_back_to_home.setOnClickListener {
-            val i = Intent(this, MainActivity::class.java)
-            startActivity(i)
-            finish()
-        }
+        //handle event when button proses pembayaran clicked
+        val context = this
+        buttonPayListener(context, transactionId, itemId, itemName)
 
-        //get data user ke firebase
-        auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid
-        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
-
-        databaseReference.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(user: DataSnapshot) {
-                if (user.exists()){
-                    for (mUser in user.children){
-                        val mUserId = mUser.child("user_id").value
-                        if (userId.toString() == mUserId.toString()){
-                            val firstName = mUser.child("nama_depan").value
-                            val lastName = mUser.child("nama_belakang").value
-                            val email = mUser.child("email").value
-                            val alamat = mUser.child("alamat").value
-                            val city = mUser.child("kota").value
-                            val postalCode = mUser.child("kode_pos").value
-                            val phoneNumber = mUser.child("phone").value
-                        }
-                    }
-                } else {
-                    Log.d("paymentActivity", "Failed to get user data from firebase")
-                }
-            }
-
-            override fun onCancelled(dataBaseError: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
+        //handle event when button edit pesanan and back to home clicked
+        buttonListener()
     }
 
-    private fun midtransInit(){
+    private fun midtransInit(itemId : String, durasi : String){
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-VC8itBKdhlacu-pD")
             .setContext(applicationContext)
@@ -101,9 +67,26 @@ class PaymentActivity : AppCompatActivity() {
                 if (result.status == "success"){
                     //put logic here when transaction is success
                     Log.d("MidtransLog", "transaction is successful")
+
+                    //update status locker di firebase menjadi "Booked"
+                    updateLockerStatus(itemId, "Booked")
+
+                    //insert data ke tabel transaction dengan status running
+                    insertDataTransaction(itemId, durasi)
+
+                    //arahkan ke fragment history running
+                    val i = Intent(this, MainActivity::class.java)
+                    i.putExtra("command", "open_running_transaction")
+                    startActivity(i)
+
                 } else if (result.status == "pending"){
                     //put logic here when transaction is pending
                     Log.d("MidtransLog", "transaction is pending")
+
+                    //update status locker di firebase menjadi "pending"
+                    updateLockerStatus(itemId, "Pending")
+                    //arahkan ke fragment history transaksi pending
+
                 } else if (result.status == "failed"){
                     //put logic here when transaction is failed
                     Log.d("MidtransLog", "transaction is failed")
@@ -116,34 +99,181 @@ class PaymentActivity : AppCompatActivity() {
             .buildSDK()
     }
 
-    private fun transactionDetail(transactionRequest: TransactionRequest) {
+    private fun buttonPayListener(context: Context, transactionId : String, itemId: String?, itemName: String?){
+        btn_pesan.setOnClickListener {
+            val transactionRequest = TransactionRequest(transactionId, 10000.00)
+
+            //get data user ke firebase
+            auth = FirebaseAuth.getInstance()
+            val userId = auth.currentUser?.uid
+            databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+
+            databaseReference.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(user: DataSnapshot) {
+                    if (user.exists()){
+                        for (mUser in user.children){
+                            val mUserId = mUser.child("user_id").value
+                            if (userId.toString() == mUserId.toString()){
+                                val firstName = mUser.child("nama_depan").value.toString()
+                                val lastName = mUser.child("nama_belakang").value.toString()
+                                val email = mUser.child("email").value.toString()
+                                val alamat = mUser.child("alamat").value.toString()
+                                val city = mUser.child("kota").value.toString()
+                                val postalCode = mUser.child("kode_pos").value.toString()
+                                val phoneNumber = mUser.child("phone").value.toString()
+
+
+                                val itemDetails = ItemDetails(itemId, 10000.00, 1, itemName)
+                                val itemDetailList = ArrayList<ItemDetails>()
+                                itemDetailList.add(itemDetails)
+
+                                //call transaction detail to fill data user before send to midtrans
+                                //all user data from firebase passed to this function
+                                transactionDetail(transactionRequest, userId!!, firstName, lastName,email, alamat, city, postalCode, phoneNumber)
+                                transactionRequest.itemDetails = itemDetailList
+
+
+                                MidtransSDK.getInstance().transactionRequest = transactionRequest
+
+                                MidtransSDK.getInstance().startPaymentUiFlow(context)
+                            }
+                        }
+                    } else {
+                        Log.d("paymentActivity", "Failed to get user data from firebase")
+                    }
+                }
+
+                override fun onCancelled(dataBaseError: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+            finish()
+        }
+    }
+
+    private fun transactionDetail(
+        transactionRequest: TransactionRequest,
+        customerId: String,
+        firstName: String,
+        lastName: String,
+        email: String,
+        alamat: String,
+        kota: String,
+        kodePos: String,
+        phone: String
+    ) {
         val customerDetail = CustomerDetails()
-        customerDetail.customerIdentifier = "Dyman-userId"
-        customerDetail.phone = "081322899246"
-        customerDetail.firstName = "Andi Mardiman"
-        customerDetail.lastName = "Saputra"
-        customerDetail.email = "andimardiman@macca.com"
+        customerDetail.customerIdentifier = customerId
+        customerDetail.phone = phone
+        customerDetail.firstName = firstName
+        customerDetail.lastName = lastName
+        customerDetail.email = email
 
         val shippingAddress = ShippingAddress()
-        shippingAddress.address = "Jl. R.E. Martadinata - Tondo"
-        shippingAddress.city = "Palu"
-        shippingAddress.postalCode = "94138"
+        shippingAddress.address = alamat
+        shippingAddress.city = kota
+        shippingAddress.postalCode = kodePos
         customerDetail.shippingAddress = shippingAddress
 
         val billingAddress = BillingAddress()
-        billingAddress.address = "Jl. R.E. Martadinata - Tondo"
-        billingAddress.city = "Palu"
-        billingAddress.postalCode = "94138"
+        billingAddress.address = alamat
+        billingAddress.city = kota
+        billingAddress.postalCode = kodePos
         customerDetail.billingAddress = billingAddress
 
         transactionRequest.customerDetails = customerDetail
     }
 
-    private fun displayDetailTransaction(idTransaction : String?){
+    private fun displayDetailTransaction(idTransaction : String?, durasi : String){
         val namaLocker = this.intent.getStringExtra("namaLocker")
-        val durasi = this.intent.getStringExtra("durasi")
         tv_nama_locker_detail_transaction.text = namaLocker
         tv_transaction_id.text = idTransaction
         tv_durasi_locker.text = "Durasi : "+ durasi
+    }
+
+    private fun buttonListener(){
+        btn_edit_pesanan.setOnClickListener {
+            this.onBackPressed()
+        }
+
+        btn_transaction_back_to_home.setOnClickListener {
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+            finish()
+        }
+    }
+
+    private fun updateLockerStatus(idLocker : String, status : String){
+        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
+
+        val locker = databaseReference.child(idLocker)
+
+        locker.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataLocker: DataSnapshot) {
+                if (dataLocker.exists()){
+                    val lockerStatus = dataLocker.child("Status").value
+                    if (lockerStatus == status){
+                        Log.d("PaymentActivity", "Locker status with id $idLocker already $status")
+                    } else {
+                        //update status locker ke jenis status, pending/booked(sesuai parameter yang dikirimkan)
+                        databaseReference.child(idLocker).child("Status").setValue(status)
+                        Log.d("PaymentActivity", "Locker status with id $idLocker has updated to $status")
+                    }
+                } else {
+                    Log.d("PaymentActivity", "Locker with id $idLocker is not found.")
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun insertDataTransaction(idLocker : String, durasi : String){
+        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+
+        val lockerId = idLocker.toLong()
+        val waktu = durasi
+        val mulai = System.currentTimeMillis()
+        var covertDurasi : Long = 0
+
+        //convert waktu yang dipilih user
+        when(waktu){
+            "30 Menit" -> covertDurasi = 30 * 1000 * 60
+            "60 Menit" -> covertDurasi = 60 * 1000 * 60
+            "120 Menit" -> covertDurasi = 120 * 1000 * 60
+        }
+
+        val selesai = mulai + covertDurasi
+        val namaLocker = "Locker "+ idLocker
+        val lockerStatus = "LOCKED"
+        val transactionStatus = "Running"
+
+        val data = com.macca.smartlocker.Model.Transaction(userId, lockerId, mulai.toString(), namaLocker, selesai.toString(), lockerStatus, transactionStatus, waktu)
+        val transaction = databaseReference.child(userId.toString())
+
+        transaction.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(mtransaction: DataSnapshot) {
+                val transactionId = mtransaction.childrenCount + 1
+
+                transaction.child(transactionId.toString()).setValue(data).addOnSuccessListener {
+                    Log.d("PaymentActivity", "Successfully insert data transaction.")
+
+                } .addOnFailureListener {
+                    Log.d("transactionStatus", "Failed to insert data transaction.")
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }

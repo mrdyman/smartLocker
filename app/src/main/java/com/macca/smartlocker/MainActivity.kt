@@ -33,6 +33,14 @@ class MainActivity : AppCompatActivity() {
 
         bn_home.setOnNavigationItemSelectedListener(bottomNavListener)
 
+        //cek kalo ada perintah untuk buka fragment history (jika user baru selesai lakukan transaksi)
+        val command = intent.getStringExtra("command")
+        if (command != null){
+            val fr = supportFragmentManager.beginTransaction()
+            fr.add(R.id.ll_home_fragment_container, HistoryFragment(1))
+            fr.commit()
+        }
+
         val fr = supportFragmentManager.beginTransaction()
         fr.add(R.id.ll_home_fragment_container, MyLockerFragment())
         fr.commit()
@@ -48,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 selectedFr = LockerFragment()
             }
             R.id.nav_history -> {
-                selectedFr = HistoryFragment()
+                selectedFr = HistoryFragment(0)
             }
             R.id.nav_profile -> {
                 selectedFr = ProfileFragment()

@@ -113,6 +113,7 @@ class LockerFragment : Fragment() {
             val i = Intent(context, PaymentActivity::class.java)
             i.putExtra("namaLocker", namaLocker)
             i.putExtra("durasi", tvTime.text.toString())
+            i.putExtra("idLocker", id)
             context.startActivity(i)
         //payLocker(id, timeLocker)
         }
@@ -131,7 +132,7 @@ class LockerFragment : Fragment() {
         val selesai = "jam berakhir"
         val waktu = timeLocker
         val namaLocker = "Locker "+ id.toString()
-        val lockerStatus = "CLOSED"
+        val lockerStatus = "LOCKED"
         val transactionStatus = "Running"
 
         val data = Transaction(userId, lockerId, mulai, namaLocker, selesai, lockerStatus, transactionStatus, waktu)

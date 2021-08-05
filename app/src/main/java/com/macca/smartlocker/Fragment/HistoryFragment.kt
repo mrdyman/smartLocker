@@ -13,7 +13,7 @@ import com.macca.smartlocker.Adapter.HistoryLayoutAdapter
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.fragment_history.*
 
-class HistoryFragment : Fragment() {
+class HistoryFragment(val position: Int) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -38,7 +38,7 @@ class HistoryFragment : Fragment() {
                 }
             }
         })
-
+        vp_history.currentItem=position
         tabl.attach()
     }
 }

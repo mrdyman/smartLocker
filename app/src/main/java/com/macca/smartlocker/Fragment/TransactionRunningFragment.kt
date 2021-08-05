@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.macca.smartlocker.Adapter.TransactionAdapter
+import com.macca.smartlocker.Adapter.TransactionRunningAdapter
 import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
@@ -18,9 +19,9 @@ import kotlinx.android.synthetic.main.fragment_transaction_running.*
 
 class TransactionRunningFragment : Fragment() {
 
-    private lateinit var transactionAdapter : TransactionAdapter
+    private lateinit var transactionRunningAdapter : TransactionRunningAdapter
     private lateinit var databaseReference : DatabaseReference
-    private lateinit var lockerRunning : ArrayList<Transaction>
+    private lateinit var transactionRunning : ArrayList<Transaction>
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,11 +32,11 @@ class TransactionRunningFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lockerRunning = arrayListOf()
-        transactionAdapter = TransactionAdapter(lockerRunning)
+        transactionRunning = arrayListOf()
+        transactionRunningAdapter = TransactionRunningAdapter(transactionRunning)
         rv_locker_running.setHasFixedSize(true)
         rv_locker_running.layoutManager = LinearLayoutManager(activity)
-        rv_locker_running.adapter = transactionAdapter
+        rv_locker_running.adapter = transactionRunningAdapter
         getLockerRunning()
     }
 
@@ -49,7 +50,7 @@ class TransactionRunningFragment : Fragment() {
 
         dataTransaction.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(transaction: DataSnapshot) {
-                lockerRunning.clear()
+                transactionRunning.clear()
                 if (!transaction.exists()){
                     //data transaksi dengan user Id ini tidak ditemukan
                     Log.d("dataTransaction", "Data not found.")
@@ -64,13 +65,13 @@ class TransactionRunningFragment : Fragment() {
                         if (lockerStatus == "Running") {
                             //status = running, masukkan data ke recyclerView
                             val transactionData = mTransaction.getValue(Transaction::class.java)
-                            lockerRunning.add(transactionData!!)
+                            transactionRunning.add(transactionData!!)
                             Log.d("transactionStatus", "Transaction is Running")
                         }
                     }
-                    rv_locker_running?.adapter = transactionAdapter
+                    rv_locker_running?.adapter = transactionRunningAdapter
 
-//                    if (lockerRunning.isEmpty()){
+//                    if (transactionRunning.isEmpty()){
 //                        rl_empty_data?.visibility = View.VISIBLE
 //                    }
 
