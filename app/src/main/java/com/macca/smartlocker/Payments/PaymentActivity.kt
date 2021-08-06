@@ -9,6 +9,8 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.macca.smartlocker.MainActivity
+import com.macca.smartlocker.Model.PaymentStatus
+import com.macca.smartlocker.Network.ApiConfig
 import com.macca.smartlocker.R
 import com.macca.smartlocker.Util.SmartLockerSharedPreferences
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
@@ -23,6 +25,9 @@ import com.midtrans.sdk.corekit.models.snap.Transaction
 import com.midtrans.sdk.corekit.models.snap.TransactionResult
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder
 import kotlinx.android.synthetic.main.activity_payment.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -66,29 +71,35 @@ class PaymentActivity : AppCompatActivity() {
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-VC8itBKdhlacu-pD")
             .setContext(applicationContext)
-            .setTransactionFinishedCallback(TransactionFinishedCallback {
-                    result ->
+            .setTransactionFinishedCallback { result ->
+                val transactionId = smartLockerSharedPreferences.transactionId
                 val itemId = smartLockerSharedPreferences.itemId
                 val durasi = smartLockerSharedPreferences.duration
-                if (result.status == "success"){
+                if (result.status == "success") {
                     //put logic here when transaction is success
                     Log.d("MidtransLog", "transaction is successful")
 
                     //insert data ke tabel transaction dengan status running
                     insertDataTransaction(itemId, durasi)
 
-                } else if (result.status == "pending"){
+                    //call API Midtrans
+                    getPaymentStatus(transactionId!!)
+
+                } else if (result.status == "pending") {
                     //put logic here when transaction is pending
                     Log.d("MidtransLog", "transaction is pending")
 
                     //update status locker di firebase menjadi "pending"
                     updateLockerStatus(itemId!!, "Pending")
 
-                } else if (result.status == "failed"){
+                    //call API Midtrans
+                    getPaymentStatus(transactionId!!)
+
+                } else if (result.status == "failed") {
                     //put logic here when transaction is failed
                     Log.d("MidtransLog", "transaction is failed")
                 }
-            })
+            }
             .setMerchantBaseUrl("http://192.168.43.26:80/smartlocker/index.php/")
             .enableLog(true)
             .setColorTheme(CustomColorTheme("#FF3700B3", "#FF3700B3", "#FF3700B3"))
@@ -270,6 +281,27 @@ class PaymentActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {
                 TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun getPaymentStatus(order_id : String){
+        val client = ApiConfig.getApiService().getPaymentStatus(order_id)
+        client.enqueue(object : Callback<PaymentStatus>{
+            override fun onResponse(call: Call<PaymentStatus>, response: Response<PaymentStatus>) {
+                if (response.isSuccessful){
+                    val data = response.body()
+                    val transactionStatus = data?.transactionStatus
+                    if (transactionStatus == "settlement"){
+                        //transaksi sukses dan sudah dibayar
+                        Log.d("didimaman", data.toString())
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<PaymentStatus>, t: Throwable) {
+                Log.d("PaymentActivity", "failed connect to API with message ${t.printStackTrace()}")
             }
 
         })
