@@ -109,6 +109,8 @@ class MyLockerFragment : Fragment() {
 
                     if (myLockerList.isEmpty()){
                         rl_empty_data?.visibility = View.VISIBLE
+                    } else {
+                        rl_empty_data?.visibility = View.GONE
                     }
 
                 }

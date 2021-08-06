@@ -25,6 +25,7 @@ import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.Model.User
 import com.macca.smartlocker.Payments.PaymentActivity
 import com.macca.smartlocker.R
+import com.macca.smartlocker.Util.SmartLockerSharedPreferences
 import kotlinx.android.synthetic.main.fragment_locker.*
 import kotlinx.android.synthetic.main.time_picker_dialog.*
 import java.sql.Timestamp
@@ -36,6 +37,7 @@ class LockerFragment : Fragment() {
     private lateinit var databaseReferenceTransaction : DatabaseReference
     private lateinit var lockerList : ArrayList<Locker>
     private lateinit var auth: FirebaseAuth
+    private lateinit var smartLockerSharedPreferences: SmartLockerSharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -109,12 +111,23 @@ class LockerFragment : Fragment() {
 
         dialog.btn_dialog_pay.setOnClickListener {
             val timeLocker = tvTime.text.toString()
-            Log.d("Buttons", "Button pay clicked. id_locker = $id, time = $timeLocker ")
+            //create transaction unique id
+            val transactionId = "MaccaLab-"+ System.currentTimeMillis().toString()
+
             val i = Intent(context, PaymentActivity::class.java)
-            i.putExtra("namaLocker", namaLocker)
-            i.putExtra("durasi", tvTime.text.toString())
-            i.putExtra("idLocker", id)
+//            i.putExtra("namaLocker", namaLocker)
+//            i.putExtra("durasi", tvTime.text.toString())
+//            i.putExtra("idLocker", id)
+
+            //masukkan data ke sharepreference
+            smartLockerSharedPreferences = SmartLockerSharedPreferences(context)
+            smartLockerSharedPreferences.transactionId = transactionId
+            smartLockerSharedPreferences.itemId = id.toString()
+            smartLockerSharedPreferences.itemName = namaLocker
+            smartLockerSharedPreferences.duration = timeLocker
+
             context.startActivity(i)
+
         //payLocker(id, timeLocker)
         }
 

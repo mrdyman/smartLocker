@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.R
+import com.macca.smartlocker.Util.SmartLockerSharedPreferences
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
 import com.midtrans.sdk.corekit.core.MidtransSDK
 import com.midtrans.sdk.corekit.core.TransactionRequest
@@ -27,64 +28,63 @@ class PaymentActivity : AppCompatActivity() {
 
     private lateinit var auth : FirebaseAuth
     private lateinit var databaseReference : DatabaseReference
+    private lateinit var smartLockerSharedPreferences: SmartLockerSharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        //create transaction unique id
-        val transactionId = "MaccaLab-"+ System.currentTimeMillis().toString()
+        smartLockerSharedPreferences = SmartLockerSharedPreferences(this)
+
+        //get transaction unique id
+        val transactionId = smartLockerSharedPreferences.transactionId
 
         //get lockerId data (used to fill ItemId)
-        val itemId = this.intent.getStringExtra("idLocker")
+        val itemId = smartLockerSharedPreferences.itemId
 
         //get nama locker (used to fill itemName)
-        val itemName = this.intent.getStringExtra("namaLocker")
+        val itemName = smartLockerSharedPreferences.itemName
 
         //get durasi locker
-        val durasi = this.intent.getStringExtra("durasi")
+        val durasi = smartLockerSharedPreferences.duration
 
         //initialize midtrans
-        midtransInit(itemId!!, durasi!!)
+        midtransInit()
 
         //call function to display detail transaction
-        displayDetailTransaction(transactionId, durasi)
+        displayDetailTransaction(itemName, transactionId, durasi)
 
         //handle event when button proses pembayaran clicked
         val context = this
-        buttonPayListener(context, transactionId, itemId, itemName)
+        buttonPayListener(context, transactionId!!, itemId, itemName)
 
         //handle event when button edit pesanan and back to home clicked
         buttonListener()
     }
 
-    private fun midtransInit(itemId : String, durasi : String){
+    private fun midtransInit(){
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-VC8itBKdhlacu-pD")
             .setContext(applicationContext)
             .setTransactionFinishedCallback(TransactionFinishedCallback {
                     result ->
+                val itemId = smartLockerSharedPreferences.itemId
+                val durasi = smartLockerSharedPreferences.duration
                 if (result.status == "success"){
                     //put logic here when transaction is success
                     Log.d("MidtransLog", "transaction is successful")
-
-                    //update status locker di firebase menjadi "Booked"
-                    updateLockerStatus(itemId, "Booked")
 
                     //insert data ke tabel transaction dengan status running
                     insertDataTransaction(itemId, durasi)
 
                     //arahkan ke fragment history running
-                    val i = Intent(this, MainActivity::class.java)
-                    i.putExtra("command", "open_running_transaction")
-                    startActivity(i)
 
                 } else if (result.status == "pending"){
                     //put logic here when transaction is pending
                     Log.d("MidtransLog", "transaction is pending")
 
                     //update status locker di firebase menjadi "pending"
-                    updateLockerStatus(itemId, "Pending")
+                    updateLockerStatus(itemId!!, "Pending")
                     //arahkan ke fragment history transaksi pending
 
                 } else if (result.status == "failed"){
@@ -185,8 +185,7 @@ class PaymentActivity : AppCompatActivity() {
         transactionRequest.customerDetails = customerDetail
     }
 
-    private fun displayDetailTransaction(idTransaction : String?, durasi : String){
-        val namaLocker = this.intent.getStringExtra("namaLocker")
+    private fun displayDetailTransaction(namaLocker : String?, idTransaction : String?, durasi : String?){
         tv_nama_locker_detail_transaction.text = namaLocker
         tv_transaction_id.text = idTransaction
         tv_durasi_locker.text = "Durasi : "+ durasi
@@ -204,41 +203,41 @@ class PaymentActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateLockerStatus(idLocker : String, status : String){
+    private fun updateLockerStatus(idLocker : String, status : String?){
         databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
 
         val locker = databaseReference.child(idLocker)
 
-        locker.addValueEventListener(object : ValueEventListener{
+        locker.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataLocker: DataSnapshot) {
                 if (dataLocker.exists()){
                     val lockerStatus = dataLocker.child("Status").value
                     if (lockerStatus == status){
-                        Log.d("PaymentActivity", "Locker status with id $idLocker already $status")
+                        Log.d("PaymentActivityxz", "Locker status with id $idLocker already $status")
                     } else {
                         //update status locker ke jenis status, pending/booked(sesuai parameter yang dikirimkan)
                         databaseReference.child(idLocker).child("Status").setValue(status)
-                        Log.d("PaymentActivity", "Locker status with id $idLocker has updated to $status")
+                        Log.d("PaymentActivityxz", "Locker status with id $idLocker has updated to $status")
                     }
                 } else {
-                    Log.d("PaymentActivity", "Locker with id $idLocker is not found.")
+                    Log.d("PaymentActivityxz", "Locker with id $idLocker is not found.")
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                TODO("Not yet implemented")
+                Log.d("PaymentActivity", "database Error with message ${databaseError.message}")
             }
 
         })
     }
 
-    private fun insertDataTransaction(idLocker : String, durasi : String){
+    private fun insertDataTransaction(idLocker : String?, durasi : String?){
         databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
 
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
 
-        val lockerId = idLocker.toLong()
+        val lockerId = idLocker?.toLong()
         val waktu = durasi
         val mulai = System.currentTimeMillis()
         var covertDurasi : Long = 0
@@ -258,13 +257,15 @@ class PaymentActivity : AppCompatActivity() {
         val data = com.macca.smartlocker.Model.Transaction(userId, lockerId, mulai.toString(), namaLocker, selesai.toString(), lockerStatus, transactionStatus, waktu)
         val transaction = databaseReference.child(userId.toString())
 
-        transaction.addValueEventListener(object : ValueEventListener{
+        transaction.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(mtransaction: DataSnapshot) {
                 val transactionId = mtransaction.childrenCount + 1
 
                 transaction.child(transactionId.toString()).setValue(data).addOnSuccessListener {
                     Log.d("PaymentActivity", "Successfully insert data transaction.")
 
+                    //update status locker menjadi "Booked"
+                    updateLockerStatus(lockerId.toString(), "Booked")
                 } .addOnFailureListener {
                     Log.d("transactionStatus", "Failed to insert data transaction.")
                 }

@@ -3,6 +3,7 @@ package com.macca.smartlocker
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,16 +15,19 @@ import com.macca.smartlocker.Fragment.HistoryFragment
 import com.macca.smartlocker.Fragment.LockerFragment
 import com.macca.smartlocker.Fragment.MyLockerFragment
 import com.macca.smartlocker.Fragment.ProfileFragment
+import com.macca.smartlocker.Util.SmartLockerSharedPreferences
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
+    private lateinit var smartLockerSharedPreferences: SmartLockerSharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d("resume", "create")
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE), 101)
@@ -31,15 +35,14 @@ class MainActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        bn_home.setOnNavigationItemSelectedListener(bottomNavListener)
+        smartLockerSharedPreferences = SmartLockerSharedPreferences(this)
+        //initialisasi semua isi sharepreference ke null (reset data)
+        smartLockerSharedPreferences.transactionId = null
+        smartLockerSharedPreferences.itemId = null
+        smartLockerSharedPreferences.itemName = null
+        smartLockerSharedPreferences.duration = null
 
-        //cek kalo ada perintah untuk buka fragment history (jika user baru selesai lakukan transaksi)
-        val command = intent.getStringExtra("command")
-        if (command != null){
-            val fr = supportFragmentManager.beginTransaction()
-            fr.add(R.id.ll_home_fragment_container, HistoryFragment(1))
-            fr.commit()
-        }
+        bn_home.setOnNavigationItemSelectedListener(bottomNavListener)
 
         val fr = supportFragmentManager.beginTransaction()
         fr.add(R.id.ll_home_fragment_container, MyLockerFragment())
