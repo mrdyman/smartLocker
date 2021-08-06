@@ -39,6 +39,7 @@
                     android:fontFamily="@font/poppins_medium"/>
 
                 <TextView
+                    android:id="@+id/tv_date_transaction_pending"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -76,6 +77,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_deadline_transaction_pending"
                     android:layout_marginStart="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,6 +86,7 @@
                     android:text="Mohon selesaikan pembayaran sebelum 04/08/21 : 11:44"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_how_to_pay_transaction"
                     android:layout_gravity="end"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="15dp"

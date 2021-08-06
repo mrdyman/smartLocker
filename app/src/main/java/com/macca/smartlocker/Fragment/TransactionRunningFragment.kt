@@ -15,6 +15,7 @@ import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_transaction_completed.*
 import kotlinx.android.synthetic.main.fragment_transaction_running.*
 
 class TransactionRunningFragment : Fragment() {
@@ -22,7 +23,6 @@ class TransactionRunningFragment : Fragment() {
     private lateinit var transactionRunningAdapter : TransactionRunningAdapter
     private lateinit var databaseReference : DatabaseReference
     private lateinit var transactionRunning : ArrayList<Transaction>
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -71,9 +71,11 @@ class TransactionRunningFragment : Fragment() {
                     }
                     rv_locker_running?.adapter = transactionRunningAdapter
 
-//                    if (transactionRunning.isEmpty()){
-//                        rl_empty_data?.visibility = View.VISIBLE
-//                    }
+                    if (transactionRunning.isEmpty()){
+                        ll_transaction_running_item_empty?.visibility = View.VISIBLE
+                    } else {
+                        ll_transaction_running_item_empty?.visibility = View.GONE
+                    }
 
                 }
             }

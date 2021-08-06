@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("resume", "create")
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE), 101)
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         smartLockerSharedPreferences = SmartLockerSharedPreferences(this)
-        //initialisasi semua isi sharepreference ke null (reset data)
+        //reset data pada sharePreference
         smartLockerSharedPreferences.transactionId = null
         smartLockerSharedPreferences.itemId = null
         smartLockerSharedPreferences.itemName = null
@@ -59,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 selectedFr = LockerFragment()
             }
             R.id.nav_history -> {
-                selectedFr = HistoryFragment(0)
+                selectedFr = HistoryFragment()
             }
             R.id.nav_profile -> {
                 selectedFr = ProfileFragment()

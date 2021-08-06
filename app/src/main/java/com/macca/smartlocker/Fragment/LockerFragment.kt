@@ -124,6 +124,7 @@ class LockerFragment : Fragment() {
             smartLockerSharedPreferences.duration = timeLocker
 
             context.startActivity(i)
+            dialog.dismiss()
 
         //payLocker(id, timeLocker)
         }

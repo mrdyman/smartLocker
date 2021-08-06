@@ -77,15 +77,12 @@ class PaymentActivity : AppCompatActivity() {
                     //insert data ke tabel transaction dengan status running
                     insertDataTransaction(itemId, durasi)
 
-                    //arahkan ke fragment history running
-
                 } else if (result.status == "pending"){
                     //put logic here when transaction is pending
                     Log.d("MidtransLog", "transaction is pending")
 
                     //update status locker di firebase menjadi "pending"
                     updateLockerStatus(itemId!!, "Pending")
-                    //arahkan ke fragment history transaksi pending
 
                 } else if (result.status == "failed"){
                     //put logic here when transaction is failed
@@ -213,14 +210,14 @@ class PaymentActivity : AppCompatActivity() {
                 if (dataLocker.exists()){
                     val lockerStatus = dataLocker.child("Status").value
                     if (lockerStatus == status){
-                        Log.d("PaymentActivityxz", "Locker status with id $idLocker already $status")
+                        Log.d("PaymentActivity", "Locker status with id $idLocker already $status")
                     } else {
                         //update status locker ke jenis status, pending/booked(sesuai parameter yang dikirimkan)
                         databaseReference.child(idLocker).child("Status").setValue(status)
-                        Log.d("PaymentActivityxz", "Locker status with id $idLocker has updated to $status")
+                        Log.d("PaymentActivity", "Locker status with id $idLocker has updated to $status")
                     }
                 } else {
-                    Log.d("PaymentActivityxz", "Locker with id $idLocker is not found.")
+                    Log.d("PaymentActivity", "Locker with id $idLocker is not found.")
                 }
             }
 
