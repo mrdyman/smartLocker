@@ -115,9 +115,6 @@ class LockerFragment : Fragment() {
             val transactionId = "MaccaLab-"+ System.currentTimeMillis().toString()
 
             val i = Intent(context, PaymentActivity::class.java)
-//            i.putExtra("namaLocker", namaLocker)
-//            i.putExtra("durasi", tvTime.text.toString())
-//            i.putExtra("idLocker", id)
 
             //masukkan data ke sharepreference
             smartLockerSharedPreferences = SmartLockerSharedPreferences(context)
