@@ -222,7 +222,8 @@ class MyLockerFragment : Fragment() {
                     for (data in dataSnapshot.children){
                         val transactionId = data.key.toString()
                         val idLocker = data.child("id_Locker").value
-                        if (idLocker == id){
+                        val transactionStatus = data.child("transaction_Status").value
+                        if (idLocker == id && transactionStatus == "Running"){
                             val lockerStatus = data.child("locker_Status").value
                             if (lockerStatus == "LOCKED"){
                                 dataTransaction.child(transactionId).child("locker_Status").setValue("UNLOCKED")
