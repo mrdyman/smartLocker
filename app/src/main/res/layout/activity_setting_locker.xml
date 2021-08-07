@@ -24,15 +24,15 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_img_locker"
-                android:layout_width="150dp"
+                android:layout_width="10dp"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="20dp">
 
                 <ImageView
-                    android:layout_width="190dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:src="@drawable/finance" />
+                    android:src="#673AB7" />
 
             </androidx.cardview.widget.CardView>
 

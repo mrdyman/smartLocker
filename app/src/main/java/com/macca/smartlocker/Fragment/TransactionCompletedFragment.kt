@@ -68,13 +68,11 @@ class TransactionCompletedFragment : Fragment() {
                         }
                     }
                     rv_locker_completed?.adapter = transactionCompletedAdapter
-
-                    if (transactionCompleted.isEmpty()){
-                        ll_transaction_completed_item_empty?.visibility = View.VISIBLE
-                    } else {
-                        ll_transaction_completed_item_empty?.visibility = View.GONE
-                    }
-
+                }
+                if (transactionCompleted.isEmpty()) {
+                    ll_transaction_completed_item_empty?.visibility = View.VISIBLE
+                } else {
+                    ll_transaction_completed_item_empty?.visibility = View.GONE
                 }
             }
 

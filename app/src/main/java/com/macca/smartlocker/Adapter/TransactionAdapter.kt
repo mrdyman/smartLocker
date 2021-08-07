@@ -12,6 +12,9 @@ import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
 import com.macca.smartlocker.SettingLockerActivity
 import kotlinx.android.synthetic.main.list_my_locker.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
@@ -25,14 +28,39 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
     override fun onBindViewHolder(holder: TransactionHolder, position: Int) {
         val transaction = Transaction[position]
 
+        val timeEnd = transaction.Selesai!!.toLong()
+        val currentTime = System.currentTimeMillis()
+        val waktu = timeEnd-currentTime
+        val resultWaktu = waktu / 1000 / 60
+        var sisaWaktu = ""
+        if (timeEnd < currentTime){
+            sisaWaktu = "Waktu Habis"
+        } else {
+            sisaWaktu = resultWaktu.toString() + " Menit"
+        }
+
+        val mulai = Date(transaction.Mulai!!.toLong())
+        val selesai = Date(transaction.Selesai!!.toLong())
+        val timeMulai = convertDate(mulai)
+        val timeSelesai = convertDate(selesai)
+
         holder.namaLocker.text = transaction.Nama_Locker
+        holder.sisaWaktu.text = sisaWaktu
         holder.mStatus.text = transaction.Locker_Status
+
+        val lockerStatus = holder.mStatus.text
+        if (lockerStatus == "LOCKED"){
+            holder.btnOpenClose.text = "BUKA"
+        } else {
+            holder.btnOpenClose.text = "TUTUP"
+        }
+
         holder.btnSetting.setOnClickListener {
             val namaLocker = transaction.Nama_Locker
-            val mulai = transaction.Mulai
-            val selesai = transaction.Selesai
+            val mulai = timeMulai
+            val selesai = timeSelesai
             val mStaus = transaction.Locker_Status
-            val sisaWaktu = "23 Menit"
+            val sisaWaktu = sisaWaktu
 
             //listener onClick untuk button setting
             val activity = holder.itemView.context
@@ -70,7 +98,13 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
     }
 
     private fun openCloseLocker(id: Long?){
+        myLockerFragment = MyLockerFragment()
+        myLockerFragment.openCloseLocker(id)
+    }
 
+    private fun convertDate(time : Date) : String{
+        val timeZoneDate = SimpleDateFormat("dd-MM-yyyy'/'HH:mm:ss", Locale.getDefault())
+        return timeZoneDate.format(time)
     }
 
     class TransactionHolder (itemView : View) : RecyclerView.ViewHolder(itemView) {

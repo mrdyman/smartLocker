@@ -27,10 +27,6 @@ class HistoryFragment : Fragment() {
         val tabl = TabLayoutMediator(tl_history, vp_history) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Pending"
-                    tab.icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_pending, null)
-                }
-                1 -> {
                     tab.text = "Running"
                     tab.icon = ResourcesCompat.getDrawable(
                         resources,
@@ -38,7 +34,7 @@ class HistoryFragment : Fragment() {
                         null
                     )
                 }
-                2 -> {
+                1 -> {
                     tab.text = "Completed"
                     tab.icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_done, null)
                 }

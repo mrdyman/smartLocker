@@ -106,13 +106,11 @@ class MyLockerFragment : Fragment() {
                             }
                         }
                     rv_my_locker?.adapter = transactionAdapter
-
-                    if (myLockerList.isEmpty()){
-                        rl_empty_data?.visibility = View.VISIBLE
-                    } else {
-                        rl_empty_data?.visibility = View.GONE
-                    }
-
+                }
+                if (myLockerList.isEmpty()) {
+                    rl_empty_data?.visibility = View.VISIBLE
+                } else {
+                    rl_empty_data?.visibility = View.GONE
                 }
             }
 
@@ -167,6 +165,39 @@ class MyLockerFragment : Fragment() {
                             val lockerStatus = data.child("transaction_Status").value
                             if (lockerStatus == "Running"){
                                 dataTransaction.child(transactionId).child("transaction_Status").setValue("Completed")
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    fun openCloseLocker(id : Long?){
+        //update status locker di tabel transaksi
+        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+
+        val dataTransaction = databaseReferenceTransaction.child(userId.toString())
+        dataTransaction.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (data in dataSnapshot.children){
+                        val transactionId = data.key.toString()
+                        val idLocker = data.child("id_Locker").value
+                        if (idLocker == id){
+                            val lockerStatus = data.child("locker_Status").value
+                            if (lockerStatus == "LOCKED"){
+                                dataTransaction.child(transactionId).child("locker_Status").setValue("UNLOCKED")
+                            } else {
+                                dataTransaction.child(transactionId).child("locker_Status").setValue("LOCKED")
                             }
                         }
                     }

@@ -2,6 +2,7 @@ package com.macca.smartlocker
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.icu.util.UniversalTimeScale
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,10 @@ import com.macca.smartlocker.Fragment.LockerFragment
 import com.macca.smartlocker.Fragment.MyLockerFragment
 import com.macca.smartlocker.Fragment.ProfileFragment
 import com.macca.smartlocker.Util.SmartLockerSharedPreferences
+import com.midtrans.sdk.corekit.utilities.Utils
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {

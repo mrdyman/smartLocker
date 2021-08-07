@@ -70,13 +70,11 @@ class TransactionRunningFragment : Fragment() {
                         }
                     }
                     rv_locker_running?.adapter = transactionRunningAdapter
-
-                    if (transactionRunning.isEmpty()){
-                        ll_transaction_running_item_empty?.visibility = View.VISIBLE
-                    } else {
-                        ll_transaction_running_item_empty?.visibility = View.GONE
-                    }
-
+                }
+                if (transactionRunning.isEmpty()){
+                    ll_transaction_running_item_empty?.visibility = View.VISIBLE
+                } else {
+                    ll_transaction_running_item_empty?.visibility = View.GONE
                 }
             }
 

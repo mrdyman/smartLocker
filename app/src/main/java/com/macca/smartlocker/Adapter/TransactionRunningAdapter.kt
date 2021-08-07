@@ -8,6 +8,9 @@ import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
 import kotlinx.android.synthetic.main.list_my_locker.view.*
 import kotlinx.android.synthetic.main.list_running_transaction.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TransactionRunningAdapter (val transactionRunning : ArrayList<Transaction>) : RecyclerView.Adapter<TransactionRunningAdapter.TransactionRunningHolder>() {
 
@@ -19,9 +22,14 @@ class TransactionRunningAdapter (val transactionRunning : ArrayList<Transaction>
     override fun onBindViewHolder(holder: TransactionRunningHolder, position: Int) {
         val transactionRunning = transactionRunning[position]
 
+        val startTime = Date(transactionRunning.Mulai!!.toLong())
+        val endTime = Date(transactionRunning.Selesai!!.toLong())
+        val timeMulai = convertDate(startTime)
+        val timeSelesai = convertDate(endTime)
+
         holder.namaLockerRunning.text = transactionRunning.Nama_Locker
-        holder.start.text = transactionRunning.Mulai
-        holder.end.text = transactionRunning.Selesai
+        holder.start.text = timeMulai
+        holder.end.text = timeSelesai
         holder.totalTime.text = transactionRunning.Waktu
     }
 
@@ -34,5 +42,10 @@ class TransactionRunningAdapter (val transactionRunning : ArrayList<Transaction>
         var start = itemView.tv_start_time_transaction_running
         var end = itemView.tv_end_time_transaction_running
         var totalTime = itemView.tv_total_time_transaction_running
+    }
+
+    private fun convertDate(time : Date) : String{
+        val timeZoneDate = SimpleDateFormat("dd-MM-yyyy'/'HH:mm:ss", Locale.getDefault())
+        return timeZoneDate.format(time)
     }
 }
