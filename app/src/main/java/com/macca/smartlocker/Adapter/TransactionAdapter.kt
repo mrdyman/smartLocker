@@ -56,6 +56,7 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
         }
 
         holder.btnSetting.setOnClickListener {
+            val idLocker = transaction.Id_Locker.toString()
             val namaLocker = transaction.Nama_Locker
             val mulai = timeMulai
             val selesai = timeSelesai
@@ -64,12 +65,13 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
 
             //listener onClick untuk button setting
             val activity = holder.itemView.context
-            showSettingLocker(activity,namaLocker, mulai, selesai, mStaus, sisaWaktu)
+            showSettingLocker(activity, idLocker, namaLocker, mulai, selesai, mStaus, sisaWaktu)
         }
 
         //listener onClick untuk button END
         holder.btnEnd.setOnClickListener {
-            endLocker(transaction.Id_Locker)
+            val context = holder.itemView.context
+            endLocker(transaction.Id_Locker, context)
         }
 
         //listener onClick untuk button Buka/Tutup Locker
@@ -82,8 +84,9 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
         return Transaction.size
     }
 
-    private fun showSettingLocker(context: Context, namaLocker: String?, mulai: String?, selesai: String?, mStaus: String?, sisaWaktu: String) {
+    private fun showSettingLocker(context: Context, idLocker : String?, namaLocker: String?, mulai: String?, selesai: String?, mStaus: String?, sisaWaktu: String) {
         val i = Intent(context, SettingLockerActivity::class.java)
+        i.putExtra("idLocker", idLocker)
         i.putExtra("namaLocker", namaLocker)
         i.putExtra("mulai", mulai)
         i.putExtra("selesai", selesai)
@@ -92,9 +95,9 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
         context.startActivity(i)
     }
 
-    private fun endLocker(id : Long?){
+    private fun endLocker(id : Long?, context: Context){
         myLockerFragment = MyLockerFragment()
-        myLockerFragment.endLocker(id)
+        myLockerFragment.showDialog(context, id)
     }
 
     private fun openCloseLocker(id: Long?){

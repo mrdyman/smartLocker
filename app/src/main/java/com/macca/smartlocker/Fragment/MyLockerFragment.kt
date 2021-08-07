@@ -1,11 +1,17 @@
 package com.macca.smartlocker.Fragment
 
+import android.app.Dialog
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,8 +22,13 @@ import com.macca.smartlocker.Adapter.TransactionAdapter
 import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.Model.User
+import com.macca.smartlocker.Payments.PaymentActivity
 import com.macca.smartlocker.R
+import com.macca.smartlocker.Util.SmartLockerSharedPreferences
+import kotlinx.android.synthetic.main.end_locker_dialog.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.time_picker_dialog.*
+import kotlinx.android.synthetic.main.time_picker_dialog.btn_dialog_cancel
 
 class MyLockerFragment : Fragment() {
 
@@ -119,6 +130,25 @@ class MyLockerFragment : Fragment() {
             }
 
         })
+    }
+
+    fun showDialog(context: Context, id: Long?) {
+        Log.d("dialog", "Dialog End is show id = $id")
+
+        val dialog = Dialog(context)
+
+        dialog.setContentView(R.layout.end_locker_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.btn_dialog_end_cancel.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialog.btn_dialog_end.setOnClickListener {
+            endLocker(id)
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     fun endLocker(id : Long?){
