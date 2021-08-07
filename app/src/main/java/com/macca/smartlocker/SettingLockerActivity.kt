@@ -58,6 +58,10 @@ class SettingLockerActivity : AppCompatActivity() {
         btn_open_close_locker_setting.setOnClickListener {
             openCloseLocker()
         }
+
+        btn_tambah_waktu.setOnClickListener {
+            showDialogExtend()
+        }
     }
 
     private fun showDialogEnd() {
@@ -96,5 +100,27 @@ class SettingLockerActivity : AppCompatActivity() {
             btn_open_close_locker_setting.text = "BUKA"
             tv_locker_status_setting.text = "LOCKED"
         }
+    }
+
+    private fun showDialogExtend() {
+        val idLocker = intent.getStringExtra("idLocker").toString()
+        Log.d("dialog", "Dialog End is show id = $idLocker")
+
+        val dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.time_picker_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.btn_dialog_cancel.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialog.btn_dialog_pay.setOnClickListener {
+//            val myLockerFragment = MyLockerFragment()
+//            myLockerFragment.endLocker(idLocker.toLong())
+//            dialog.dismiss()
+//            finish()
+        }
+        dialog.show()
     }
 }

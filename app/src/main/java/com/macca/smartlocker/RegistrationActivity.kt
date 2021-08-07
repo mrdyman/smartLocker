@@ -47,7 +47,7 @@ class RegistrationActivity : AppCompatActivity() {
                         //insert data user ke database
                         database = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
                         val user = User(alamat, email, kodePos, kota, namaBelakang, namaDepan, phone, userId.toString())
-                        database.child(namaDepan).setValue(user).addOnSuccessListener {
+                        database.child(userId.toString()).setValue(user).addOnSuccessListener {
 
                             //clear field registrasi
                             et_nama_depan.text.clear()

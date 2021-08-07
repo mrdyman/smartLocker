@@ -125,73 +125,8 @@ class LockerFragment : Fragment() {
 
             context.startActivity(i)
             dialog.dismiss()
-
-        //payLocker(id, timeLocker)
         }
 
         dialog.show()
-    }
-
-    private fun payLocker(id: Long?, timeLocker: String) {
-        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
-
-        auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid
-
-        val lockerId = id
-        val mulai = "jam sekarang"
-        val selesai = "jam berakhir"
-        val waktu = timeLocker
-        val namaLocker = "Locker "+ id.toString()
-        val lockerStatus = "LOCKED"
-        val transactionStatus = "Running"
-
-        val data = Transaction(userId, lockerId, mulai, namaLocker, selesai, lockerStatus, transactionStatus, waktu)
-        val transaction = databaseReferenceTransaction.child(userId.toString())
-        transaction.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val transactionId = dataSnapshot.childrenCount + 1
-
-                transaction.child(transactionId.toString()).setValue(data).addOnSuccessListener {
-                    Log.d("transactionStatus", "Successfully pay locker.")
-                    //update status locker to booked
-                    updateLockerStatus(id)
-                } .addOnFailureListener {
-                    Log.d("transactionStatus", "Failed to pay locker.")
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("databaseError", "database error with message : ${databaseError.message}")
-            }
-
-        })
-    }
-
-    private fun updateLockerStatus(id: Long?){
-        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
-        val locker = databaseReference.child(id.toString())
-
-        //update status locker
-        locker.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(locker: DataSnapshot) {
-                if (!locker.exists()){
-                    Log.d("Locker", "Locker with id $id is not found")
-                } else {
-                    val lockerStatus = locker.child("Status").value
-                    if (lockerStatus == "Booked"){
-                        Log.d("LockerStatus", "Locker status already booked.")
-                    } else {
-                        //update status locker ke ready(supaya bisa di book orang lain)
-                        databaseReference.child(id.toString()).child("Status").setValue("Booked")
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
     }
 }
