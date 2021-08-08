@@ -1,19 +1,23 @@
 package com.macca.smartlocker.Payments
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.PaymentStatus
 import com.macca.smartlocker.Network.ApiConfig
 import com.macca.smartlocker.R
+import com.macca.smartlocker.Util.BroadcastReceiver
 import com.macca.smartlocker.Util.SmartLockerSharedPreferences
-import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
 import com.midtrans.sdk.corekit.core.MidtransSDK
 import com.midtrans.sdk.corekit.core.TransactionRequest
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme
@@ -21,13 +25,12 @@ import com.midtrans.sdk.corekit.models.BillingAddress
 import com.midtrans.sdk.corekit.models.CustomerDetails
 import com.midtrans.sdk.corekit.models.ItemDetails
 import com.midtrans.sdk.corekit.models.ShippingAddress
-import com.midtrans.sdk.corekit.models.snap.Transaction
-import com.midtrans.sdk.corekit.models.snap.TransactionResult
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder
 import kotlinx.android.synthetic.main.activity_payment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -72,7 +75,6 @@ class PaymentActivity : AppCompatActivity() {
             .setClientKey("SB-Mid-client-VC8itBKdhlacu-pD")
             .setContext(applicationContext)
             .setTransactionFinishedCallback { result ->
-                val transactionId = smartLockerSharedPreferences.transactionId
                 val itemId = smartLockerSharedPreferences.itemId
                 val durasi = smartLockerSharedPreferences.duration
                 if (result.status == "success") {
@@ -82,9 +84,6 @@ class PaymentActivity : AppCompatActivity() {
                     //insert data ke tabel transaction dengan status running
                     insertDataTransaction(itemId, durasi)
 
-                    //call API Midtrans
-                    getPaymentStatus(transactionId!!)
-
                 } else if (result.status == "pending") {
                     //put logic here when transaction is pending
                     Log.d("MidtransLog", "transaction is pending")
@@ -93,7 +92,7 @@ class PaymentActivity : AppCompatActivity() {
                     updateLockerStatus(itemId!!, "Pending")
 
                     //call API Midtrans
-                    getPaymentStatus(transactionId!!)
+                    getPaymentStatus()
 
                 } else if (result.status == "failed") {
                     //put logic here when transaction is failed
@@ -286,16 +285,37 @@ class PaymentActivity : AppCompatActivity() {
         })
     }
 
-    private fun getPaymentStatus(order_id : String){
-        val client = ApiConfig.getApiService().getPaymentStatus(order_id)
+    private fun getPaymentStatus(){
+        paymentStatus(this)
+    }
+
+    fun paymentStatus(context: Context){
+        smartLockerSharedPreferences = SmartLockerSharedPreferences(context)
+        val orderId = smartLockerSharedPreferences.transactionId
+        val itemId = smartLockerSharedPreferences.itemId
+        val durasi = smartLockerSharedPreferences.duration
+        val client = ApiConfig.getApiService().getPaymentStatus(orderId!!)
         client.enqueue(object : Callback<PaymentStatus>{
             override fun onResponse(call: Call<PaymentStatus>, response: Response<PaymentStatus>) {
                 if (response.isSuccessful){
                     val data = response.body()
                     val transactionStatus = data?.transactionStatus
-                    if (transactionStatus == "settlement"){
-                        //transaksi sukses dan sudah dibayar
-                        Log.d("didimaman", data.toString())
+                    if (transactionStatus == "pending"){
+                        //transaksi pending (user belum bayar)
+                        //jalankan broadcastreceiver untuk mengecek status pembayaran dalam waktu 5, 10, dan 15 menit
+                        Log.d("broadcast_orderId", response.body().toString())
+                        checkCurrentPayment(context, true)
+                    } else if (transactionStatus == "settlement"){
+                        Log.d("broadcast_orderId", "transaction status is $transactionStatus, updating locker status to Booked")
+                        updateLockerStatus(itemId!!, "Booked")
+                        insertDataTransaction(itemId, durasi)
+                        checkCurrentPayment(context, false)
+                    }
+                    else {
+                        Log.d("broadcast_orderId", "transaction is $transactionStatus, stop checking payment status")
+                        updateLockerStatus(itemId!!, "Ready")
+                        Log.d("broadcast_orderId", "Locker status has been updated to ready")
+                        checkCurrentPayment(context, false)
                     }
                 }
             }
@@ -305,5 +325,52 @@ class PaymentActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    fun checkCurrentPayment(context: Context, alarmStatus : Boolean){
+
+        if (alarmStatus){
+            enableBroadcastReceiver(context)
+            smartLockerSharedPreferences = SmartLockerSharedPreferences(context)
+            val orderId = smartLockerSharedPreferences.transactionId
+            val currentTime = System.currentTimeMillis()
+            val executeTime = currentTime + 300000
+            val intervalTime = 300000 / 1000 / 60
+            Log.d("broadcast_orderId", "paymentActivity: "+orderId)
+            Log.d("broadcast_orderId", "current Time : "+currentTime.toString())
+            Log.d("broadcast_orderId", "execute Time : "+executeTime.toString())
+            Log.d("broadcast_orderId", "interval Time : $intervalTime Minutes")
+
+            val i = Intent(this, BroadcastReceiver::class.java)
+            i.putExtra("order_id", orderId)
+            val pi = PendingIntent.getBroadcast(context, 111, i, 0)
+            val am : AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            am.setRepeating(AlarmManager.RTC_WAKEUP, currentTime, 300000, pi)
+        } else {
+            disableBroadcastReceiver(context)
+            Log.d("broadcast_orderId", "alarm has been shutdown")
+        }
+    }
+
+    fun disableBroadcastReceiver(context: Context) {
+        val receiver = ComponentName(context, BroadcastReceiver::class.java)
+        val pm = context.packageManager
+        pm.setComponentEnabledSetting(
+            receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+//        Toast.makeText(context, "Disabled broadcst receiver", Toast.LENGTH_SHORT).show()
+    }
+
+    fun enableBroadcastReceiver(context: Context) {
+        val receiver = ComponentName(context, BroadcastReceiver::class.java)
+        val pm = context.packageManager
+        pm.setComponentEnabledSetting(
+            receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+//        Toast.makeText(context, "Enabled broadcast receiver", Toast.LENGTH_SHORT).show()
     }
 }

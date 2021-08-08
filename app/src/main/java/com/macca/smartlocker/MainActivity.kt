@@ -1,6 +1,9 @@
 package com.macca.smartlocker
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.UniversalTimeScale
 import android.os.Bundle
@@ -16,9 +19,15 @@ import com.macca.smartlocker.Fragment.HistoryFragment
 import com.macca.smartlocker.Fragment.LockerFragment
 import com.macca.smartlocker.Fragment.MyLockerFragment
 import com.macca.smartlocker.Fragment.ProfileFragment
+import com.macca.smartlocker.Model.PaymentStatus
+import com.macca.smartlocker.Network.ApiConfig
+import com.macca.smartlocker.Util.BroadcastReceiver
 import com.macca.smartlocker.Util.SmartLockerSharedPreferences
 import com.midtrans.sdk.corekit.utilities.Utils
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
