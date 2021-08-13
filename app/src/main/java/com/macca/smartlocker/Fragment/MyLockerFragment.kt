@@ -206,6 +206,9 @@ class MyLockerFragment : Fragment() {
             }
 
         })
+
+        //reset locker(kunci locker)
+        lockerControl(id, true)
     }
 
     fun openCloseLocker(id : Long?){
@@ -230,6 +233,35 @@ class MyLockerFragment : Fragment() {
                             } else {
                                 dataTransaction.child(transactionId).child("locker_Status").setValue("LOCKED")
                             }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+        //jalankan function tes
+        lockerControl(id, false)
+    }
+
+    private fun lockerControl(id: Long?, reset: Boolean) {
+        databaseReferenceTransaction = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Control")
+        val locker = databaseReferenceTransaction.child(id.toString())
+        locker.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(lockerSnapshot: DataSnapshot) {
+                val idLocker = lockerSnapshot.key
+                val lockerStatus = lockerSnapshot.value
+                if (idLocker.toString() == id.toString()){
+                    if (reset){
+                        locker.setValue("LOCKED")
+                    } else {
+                        if (lockerStatus == "LOCKED"){
+                            locker.setValue("UNLOCKED")
+                        } else {
+                            locker.setValue("LOCKED")
                         }
                     }
                 }

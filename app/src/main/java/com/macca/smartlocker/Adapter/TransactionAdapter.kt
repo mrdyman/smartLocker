@@ -27,6 +27,7 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
 
     override fun onBindViewHolder(holder: TransactionHolder, position: Int) {
         val transaction = Transaction[position]
+        myLockerFragment = MyLockerFragment()
 
         val timeEnd = transaction.Selesai!!.toLong()
         val currentTime = System.currentTimeMillis()
@@ -35,6 +36,7 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
         var sisaWaktu = ""
         if (timeEnd < currentTime){
             sisaWaktu = "Waktu Habis"
+            myLockerFragment.endLocker(transaction.Id_Locker)
         } else {
             sisaWaktu = resultWaktu.toString() + " Menit"
         }
