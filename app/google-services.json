@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "409569276355",
-    "project_id": "smartlocker-7f844",
-    "storage_bucket": "smartlocker-7f844.appspot.com"
+    "project_number": "563502990439",
+    "firebase_url": "https://smart-locker-f9a91-default-rtdb.firebaseio.com",
+    "project_id": "smart-locker-f9a91",
+    "storage_bucket": "smart-locker-f9a91.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:409569276355:android:927808f0d00e5d056bcd76",
+        "mobilesdk_app_id": "1:563502990439:android:35247ef551e055b7f4c0c2",
         "android_client_info": {
           "package_name": "com.macca.smartlocker"
         }
       },
       "oauth_client": [
         {
-          "client_id": "409569276355-lap55jnakocirmubpdru13n45566o5r8.apps.googleusercontent.com",
+          "client_id": "563502990439-t2q9pbslkpqdp1psnk5mj0nlspd83rcj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCDphtS_9wk2UVOBYmQtYFQUA72VnyeoVY"
+          "current_key": "AIzaSyChwkZtSZOH207-__vBJ73hesC8QYYi8zM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "409569276355-lap55jnakocirmubpdru13n45566o5r8.apps.googleusercontent.com",
+              "client_id": "563502990439-t2q9pbslkpqdp1psnk5mj0nlspd83rcj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

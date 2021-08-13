@@ -14,6 +14,6 @@ class BroadcastReceiver : BroadcastReceiver() {
         Log.d("broadcast_orderId", "broadcast: " + orderId.toString())
         Log.d("broadcast_orderId", "broadcast: called...!")
         val paymentActivity = PaymentActivity()
-        paymentActivity.paymentStatus(context!!, orderId!!)
+        paymentActivity.paymentStatus(context!!)
     }
 }

@@ -45,7 +45,7 @@ class RegistrationActivity : AppCompatActivity() {
                         Toast.makeText(this, "Account Successful created.", Toast.LENGTH_SHORT).show()
 
                         //insert data user ke database
-                        database = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+                        database = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Users")
                         val user = User(alamat, email, kodePos, kota, namaBelakang, namaDepan, phone, userId.toString())
                         database.child(userId.toString()).setValue(user).addOnSuccessListener {
 

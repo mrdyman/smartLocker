@@ -39,7 +39,7 @@ class TransactionCompletedFragment : Fragment() {
     }
 
     private fun getLockerCompleted() {
-        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+        databaseReference = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Transaction")
 
         val auth =  (activity as MainActivity).auth
         val userId = auth.currentUser?.uid

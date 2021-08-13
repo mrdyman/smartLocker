@@ -57,7 +57,7 @@ class ProfileFragment : Fragment() {
     private fun getUserData() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
-        databaseReferenceUser = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+        databaseReferenceUser = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Users")
 
         databaseReferenceUser.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(user: DataSnapshot) {
@@ -98,7 +98,7 @@ class ProfileFragment : Fragment() {
     private fun displayEdit(){
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
-        databaseReferenceUser = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+        databaseReferenceUser = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Users")
 
         databaseReferenceUser.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(user: DataSnapshot) {
@@ -145,7 +145,7 @@ class ProfileFragment : Fragment() {
         val email = auth.currentUser?.email
 
         //insert data user ke database
-        databaseReferenceUser = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+        databaseReferenceUser = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Users")
         val user = User(alamat, email, kodePos, kota, namaBelakang, namaDepan, phone, userId.toString())
         databaseReferenceUser.child(userId.toString()).setValue(user).addOnSuccessListener {
             Log.d("profileUpdate", "profile update successful")

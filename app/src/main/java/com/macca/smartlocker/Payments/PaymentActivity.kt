@@ -113,7 +113,7 @@ class PaymentActivity : AppCompatActivity() {
             //get data user ke firebase
             auth = FirebaseAuth.getInstance()
             val userId = auth.currentUser?.uid
-            databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users")
+            databaseReference = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Users")
 
             databaseReference.addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(user: DataSnapshot) {
@@ -211,7 +211,7 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun updateLockerStatus(idLocker : String, status : String?){
-        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Locker")
+        databaseReference = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Locker")
 
         val locker = databaseReference.child(idLocker)
 
@@ -239,7 +239,7 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun insertDataTransaction(idLocker : String?, durasi : String?){
-        databaseReference = FirebaseDatabase.getInstance("https://smartlocker-7f844-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Transaction")
+        databaseReference = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Transaction")
 
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
