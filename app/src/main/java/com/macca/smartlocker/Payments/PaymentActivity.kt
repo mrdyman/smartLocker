@@ -345,7 +345,7 @@ class PaymentActivity : AppCompatActivity() {
             i.putExtra("order_id", orderId)
             val pi = PendingIntent.getBroadcast(context, 111, i, 0)
             val am : AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            am.setRepeating(AlarmManager.RTC_WAKEUP, currentTime, 300000, pi)
+            am.setRepeating(AlarmManager.RTC_WAKEUP, currentTime, 10000, pi)
         } else {
             disableBroadcastReceiver(context)
             Log.d("broadcast_orderId", "alarm has been shutdown")
