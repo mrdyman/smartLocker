@@ -310,6 +310,9 @@ class PaymentActivity : AppCompatActivity() {
                         updateLockerStatus(itemId!!, "Booked")
                         insertDataTransaction(itemId, durasi)
                         checkCurrentPayment(context, false)
+
+                        //call function to check elapsed time of locker
+                        checkElapsedTime()
                     }
                     else {
                         Log.d("broadcast_orderId", "transaction is $transactionStatus, stop checking payment status")
@@ -372,5 +375,11 @@ class PaymentActivity : AppCompatActivity() {
             PackageManager.DONT_KILL_APP
         )
 //        Toast.makeText(context, "Enabled broadcast receiver", Toast.LENGTH_SHORT).show()
+    }
+
+    fun checkElapsedTime(){
+        //get data transaction yang statusnya "Running"
+        //ambil waktu selesai dari setiap data transaksi
+        //lakukan pengecekan, kalau waktu saat ini - waktu selesai(pada path transaction) == 10 menit, tampilkan notifikasi
     }
 }

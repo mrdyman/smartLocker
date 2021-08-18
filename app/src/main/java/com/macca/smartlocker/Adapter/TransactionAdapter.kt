@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.*
 import com.macca.smartlocker.Fragment.MyLockerFragment
 import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
@@ -19,6 +20,7 @@ import kotlin.collections.ArrayList
 class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
     private lateinit var myLockerFragment : MyLockerFragment
+    private lateinit var databaseReferenceLockerControl : DatabaseReference
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_my_locker, parent, false)
@@ -28,6 +30,28 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
     override fun onBindViewHolder(holder: TransactionHolder, position: Int) {
         val transaction = Transaction[position]
         myLockerFragment = MyLockerFragment()
+        databaseReferenceLockerControl = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Control")
+        val locker = databaseReferenceLockerControl.child(transaction.Id_Locker.toString())
+
+        locker.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(lockerControl: DataSnapshot) {
+                var idLocker = lockerControl.key
+                var statusLocker = lockerControl.value
+                holder.mStatus.text = statusLocker.toString()
+
+                if (statusLocker == "LOCKED"){
+                    holder.btnOpenClose.text = "BUKA"
+                } else {
+                    holder.btnOpenClose.text = "TUTUP"
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
 
         val timeEnd = transaction.Selesai!!.toLong()
         val currentTime = System.currentTimeMillis()
@@ -48,14 +72,6 @@ class TransactionAdapter (val Transaction : ArrayList<Transaction>) : RecyclerVi
 
         holder.namaLocker.text = transaction.Nama_Locker
         holder.sisaWaktu.text = sisaWaktu
-        holder.mStatus.text = transaction.Locker_Status
-
-        val lockerStatus = holder.mStatus.text
-        if (lockerStatus == "LOCKED"){
-            holder.btnOpenClose.text = "BUKA"
-        } else {
-            holder.btnOpenClose.text = "TUTUP"
-        }
 
         holder.btnSetting.setOnClickListener {
             val idLocker = transaction.Id_Locker.toString()

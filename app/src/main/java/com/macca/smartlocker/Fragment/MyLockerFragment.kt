@@ -194,6 +194,7 @@ class MyLockerFragment : Fragment() {
                         if (idLocker == id){
                             val lockerStatus = data.child("transaction_Status").value
                             if (lockerStatus == "Running"){
+                                dataTransaction.child(transactionId).child("locker_Status").setValue("LOCKED")
                                 dataTransaction.child(transactionId).child("transaction_Status").setValue("Completed")
                             }
                         }
