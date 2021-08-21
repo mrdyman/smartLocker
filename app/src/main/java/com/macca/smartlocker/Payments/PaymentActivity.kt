@@ -1,21 +1,27 @@
 package com.macca.smartlocker.Payments
 
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.PaymentStatus
+import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.Network.ApiConfig
 import com.macca.smartlocker.R
+import com.macca.smartlocker.Util.AlarmNotification
 import com.macca.smartlocker.Util.BroadcastReceiver
 import com.macca.smartlocker.Util.SmartLockerSharedPreferences
 import com.midtrans.sdk.corekit.core.MidtransSDK
@@ -100,6 +106,7 @@ class PaymentActivity : AppCompatActivity() {
                 }
             }
             .setMerchantBaseUrl("http://192.168.43.26:80/smartlocker/index.php/")
+//            .setMerchantBaseUrl("http://192.168.128.171:80/smartlocker/index.php/")
             .enableLog(true)
             .setColorTheme(CustomColorTheme("#FF3700B3", "#FF3700B3", "#FF3700B3"))
             .setLanguage("id")
@@ -272,7 +279,8 @@ class PaymentActivity : AppCompatActivity() {
                     Log.d("PaymentActivity", "Successfully insert data transaction.")
 
                     //update status locker menjadi "Booked"
-                    updateLockerStatus(lockerId.toString(), "Booked")
+                    updateLockerStatus(lockerId.toString(), "Booked ")
+
                 } .addOnFailureListener {
                     Log.d("transactionStatus", "Failed to insert data transaction.")
                 }
@@ -307,16 +315,13 @@ class PaymentActivity : AppCompatActivity() {
                         checkCurrentPayment(context, true)
                     } else if (transactionStatus == "settlement"){
                         Log.d("broadcast_orderId", "transaction status is $transactionStatus, updating locker status to Booked")
-                        updateLockerStatus(itemId!!, "Booked")
+                        updateLockerStatus(itemId!!, "Booked ")
                         insertDataTransaction(itemId, durasi)
                         checkCurrentPayment(context, false)
-
-                        //call function to check elapsed time of locker
-                        checkElapsedTime()
                     }
                     else {
                         Log.d("broadcast_orderId", "transaction is $transactionStatus, stop checking payment status")
-                        updateLockerStatus(itemId!!, "Ready")
+                        updateLockerStatus(itemId!!, "Ready ")
                         Log.d("broadcast_orderId", "Locker status has been updated to ready")
                         checkCurrentPayment(context, false)
                     }
@@ -377,9 +382,35 @@ class PaymentActivity : AppCompatActivity() {
 //        Toast.makeText(context, "Enabled broadcast receiver", Toast.LENGTH_SHORT).show()
     }
 
-    fun checkElapsedTime(){
+    fun setLockerAlarm(context: Context){
         //get data transaction yang statusnya "Running"
-        //ambil waktu selesai dari setiap data transaksi
-        //lakukan pengecekan, kalau waktu saat ini - waktu selesai(pada path transaction) == 10 menit, tampilkan notifikasi
+        databaseReference = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Transaction")
+
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        val dataTransaction = databaseReference.child(userId.toString())
+
+        dataTransaction.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataTransaction: DataSnapshot) {
+                for (transaction in dataTransaction.children){
+                    //ambil data status transaksi (running/completed)
+                    val lockerStatus = transaction.child("transaction_Status").value
+
+                    //cek, kalo status transaksi = running, ambil data waktu selesainya
+                    if (lockerStatus == "Running") {
+                        //status = running, ambil waktu selesai dari setiap data transaksi
+                        val transactionEnd = transaction.child("selesai").value
+
+                        //set Alarm
+//                        setAlarmNotification(context, transactionEnd.toString().toLong())
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }

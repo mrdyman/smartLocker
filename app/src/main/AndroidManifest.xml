@@ -4,7 +4,7 @@
     package="com.macca.smartlocker">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,10 +12,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:theme="@style/Theme.SmartLocker"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup, android:usesCleartextTraffic"
-        android:theme="@style/Theme.SmartLocker">
-        <activity android:name=".Payments.PaymentActivity"></activity>
+        tools:replace="android:allowBackup, android:usesCleartextTraffic">
+        <activity android:name=".ForceOpenLockerActivity"></activity>
+        <activity android:name=".Payments.PaymentActivity" />
         <activity android:name=".SettingLockerActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".RegistrationActivity" />
@@ -36,7 +37,21 @@
             <!-- </intent-filter> -->
         </activity>
 
-        <receiver android:name=".Util.BroadcastReceiver"/>
+        <receiver android:name=".Util.BroadcastReceiver" />
+        <receiver android:name=".Util.AlarmNotification">
+            <intent-filter>
+                <action android:name="com.macca.smarlocker" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".Util.ForcedOpenAlarm">
+            <intent-filter>
+                <action android:name="com.macca.smartlocker" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -67,7 +67,7 @@ class LockerFragment : Fragment() {
                         val lockerStatus = data.child("Status").value
 
                         //cek, kalo status locker = ready, tampilkan ke recyclerview
-                        if (lockerStatus == "Ready") {
+                        if (lockerStatus == "Ready ") {
                             //status = Ready, masukkan data ke recyclerView
                             val lockerData = data.getValue(Locker::class.java)
                             lockerList.add(lockerData!!)

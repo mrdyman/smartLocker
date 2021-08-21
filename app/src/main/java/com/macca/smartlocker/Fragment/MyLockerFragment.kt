@@ -1,10 +1,13 @@
 package com.macca.smartlocker.Fragment
 
-import android.app.Dialog
+import android.app.*
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -24,6 +27,8 @@ import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.Model.User
 import com.macca.smartlocker.Payments.PaymentActivity
 import com.macca.smartlocker.R
+import com.macca.smartlocker.Util.BroadcastReceiver
+import com.macca.smartlocker.Util.ForcedOpenAlarm
 import com.macca.smartlocker.Util.SmartLockerSharedPreferences
 import kotlinx.android.synthetic.main.end_locker_dialog.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -38,6 +43,7 @@ class MyLockerFragment : Fragment() {
     private lateinit var databaseReferenceUser : DatabaseReference
     private lateinit var myLockerList : ArrayList<Transaction>
     private lateinit var auth: FirebaseAuth
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -101,7 +107,13 @@ class MyLockerFragment : Fragment() {
                 if (!transaction.exists()){
                     //data transaksi dengan user Id ini tidak ditemukan
                     Log.d("dataTransaction", "Data not found.")
+                    //matikan pengecekan forced Open
+                    val mActivity = activity as MainActivity
+                    mActivity.lockerSecurityCheck(false)
                 } else {
+                    //jalankan pengecekan forceOpen
+                    val mActivity = activity as MainActivity
+                    mActivity.lockerSecurityCheck(true)
                     //data transaksi ditemukan.
                     //lakukan looping data transaksi berdasarkan user yang login
                         for (mTransaction in transaction.children){
@@ -112,8 +124,13 @@ class MyLockerFragment : Fragment() {
                             if (lockerStatus == "Running") {
                                 //status = running, masukkan data ke recyclerView
                                 val transactionData = mTransaction.getValue(Transaction::class.java)
+                                val endTime = mTransaction.child("selesai").value
                                 myLockerList.add(transactionData!!)
                                 Log.d("transactionStatus", "Transaction is Running")
+
+                                val ma = activity as MainActivity
+                                ma.setAlarmNotification(endTime.toString().toLong())
+
                             }
                         }
                     rv_my_locker?.adapter = transactionAdapter
@@ -163,11 +180,11 @@ class MyLockerFragment : Fragment() {
                     Log.d("Locker", "Locker with id $id is not found")
                 } else {
                     val lockerStatus = locker.child("Status").value
-                    if (lockerStatus == "Ready"){
+                    if (lockerStatus == "Ready "){
                         Log.d("LockerStatus", "Locker status already ready for book.")
                     } else {
                         //update status locker ke ready(supaya bisa di book orang lain)
-                        databaseReferenceLocker.child(id.toString()).child("Status").setValue("Ready")
+                        databaseReferenceLocker.child(id.toString()).child("Status").setValue("Ready ")
                     }
                 }
             }
@@ -195,6 +212,7 @@ class MyLockerFragment : Fragment() {
                             val lockerStatus = data.child("transaction_Status").value
                             if (lockerStatus == "Running"){
                                 dataTransaction.child(transactionId).child("locker_Status").setValue("LOCKED")
+                                dataTransaction.child(transactionId).child("selesai").setValue(System.currentTimeMillis().toString())
                                 dataTransaction.child(transactionId).child("transaction_Status").setValue("Completed")
                             }
                         }

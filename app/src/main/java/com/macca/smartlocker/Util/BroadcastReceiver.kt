@@ -8,7 +8,7 @@ import android.util.Log
 import com.macca.smartlocker.Payments.PaymentActivity
 import com.macca.smartlocker.R
 
-class BroadcastReceiver : BroadcastReceiver() {
+open class BroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val orderId = intent?.getStringExtra("order_id")
         Log.d("broadcast_orderId", "broadcast: " + orderId.toString())

@@ -1,5 +1,6 @@
 package com.macca.smartlocker.Adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.macca.smartlocker.Fragment.MyLockerFragment
+import com.macca.smartlocker.MainActivity
 import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.R
 import com.macca.smartlocker.SettingLockerActivity
