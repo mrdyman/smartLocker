@@ -381,36 +381,4 @@ class PaymentActivity : AppCompatActivity() {
         )
 //        Toast.makeText(context, "Enabled broadcast receiver", Toast.LENGTH_SHORT).show()
     }
-
-    fun setLockerAlarm(context: Context){
-        //get data transaction yang statusnya "Running"
-        databaseReference = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Transaction")
-
-        auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid
-        val dataTransaction = databaseReference.child(userId.toString())
-
-        dataTransaction.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataTransaction: DataSnapshot) {
-                for (transaction in dataTransaction.children){
-                    //ambil data status transaksi (running/completed)
-                    val lockerStatus = transaction.child("transaction_Status").value
-
-                    //cek, kalo status transaksi = running, ambil data waktu selesainya
-                    if (lockerStatus == "Running") {
-                        //status = running, ambil waktu selesai dari setiap data transaksi
-                        val transactionEnd = transaction.child("selesai").value
-
-                        //set Alarm
-//                        setAlarmNotification(context, transactionEnd.toString().toLong())
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
 }
