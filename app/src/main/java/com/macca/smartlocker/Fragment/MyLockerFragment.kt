@@ -108,12 +108,12 @@ class MyLockerFragment : Fragment() {
                     //data transaksi dengan user Id ini tidak ditemukan
                     Log.d("dataTransaction", "Data not found.")
                     //matikan pengecekan forced Open
-                    val mActivity = activity as MainActivity
-                    mActivity.lockerSecurityCheck(false)
+                    val mActivity = (activity as? MainActivity)
+                    mActivity?.lockerSecurityCheck(false)
                 } else {
                     //jalankan pengecekan forceOpen
-                    val mActivity = activity as MainActivity
-                    mActivity.lockerSecurityCheck(true)
+                    val mActivity = activity as? MainActivity
+                    mActivity?.lockerSecurityCheck(true)
                     //data transaksi ditemukan.
                     //lakukan looping data transaksi berdasarkan user yang login
                         for (mTransaction in transaction.children){
@@ -128,8 +128,8 @@ class MyLockerFragment : Fragment() {
                                 myLockerList.add(transactionData!!)
                                 Log.d("transactionStatus", "Transaction is Running")
 
-                                val ma = activity as MainActivity
-                                ma.setAlarmNotification(endTime.toString().toLong())
+                                val ma = activity as? MainActivity
+                                ma?.setAlarmNotification(endTime.toString().toLong())
 
                             }
                         }
