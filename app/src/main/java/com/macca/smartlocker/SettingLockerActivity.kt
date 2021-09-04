@@ -8,12 +8,14 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.google.firebase.database.*
 import com.macca.smartlocker.Fragment.MyLockerFragment
 import kotlinx.android.synthetic.main.activity_setting_locker.*
 import kotlinx.android.synthetic.main.end_locker_dialog.*
 import kotlinx.android.synthetic.main.time_picker_dialog.*
 
 class SettingLockerActivity : AppCompatActivity() {
+    private lateinit var databaseReference : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_locker)
@@ -23,6 +25,24 @@ class SettingLockerActivity : AppCompatActivity() {
     }
 
     private fun displayLockerSetting() {
+        val idLocker = intent.getStringExtra("idLocker").toString()
+        databaseReference = FirebaseDatabase.getInstance("https://smart-locker-f9a91-default-rtdb.firebaseio.com/").getReference("Control")
+        databaseReference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val locker = dataSnapshot.child(idLocker)
+                tv_locker_status_setting.text = locker.value.toString()
+                if (locker.value.toString() == "LOCKED"){
+                    btn_open_close_locker_setting.text = "BUKA"
+                } else if (locker.value.toString() == "UNLOCKED"){
+                    btn_open_close_locker_setting.text = "TUTUP"
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
         val namaLocker = intent.getStringExtra("namaLocker").toString()
         val mulai = intent.getStringExtra("mulai").toString()
         val selesai = intent.getStringExtra("selesai").toString()
@@ -33,15 +53,6 @@ class SettingLockerActivity : AppCompatActivity() {
         tv_mulai.text = mulai
         tv_selesai.text = selesai
         tv_sisa_waktu_setting.text = sisaWaktu
-        tv_locker_status_setting.text = status
-
-
-        val lockerStatus = tv_locker_status_setting.text
-        if (lockerStatus == "LOCKED"){
-            btn_open_close_locker_setting.text = "BUKA"
-        } else {
-            btn_open_close_locker_setting.text = "TUTUP"
-        }
     }
 
     private fun btnListener() {
