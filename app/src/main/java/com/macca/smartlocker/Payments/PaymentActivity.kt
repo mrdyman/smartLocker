@@ -105,7 +105,8 @@ class PaymentActivity : AppCompatActivity() {
                     Log.d("MidtransLog", "transaction is failed")
                 }
             }
-            .setMerchantBaseUrl("http://192.168.43.26:80/smartlocker/index.php/")
+            .setMerchantBaseUrl("https://arsipamanah.online/smartlocker/index.php/")
+//            .setMerchantBaseUrl("http://192.168.43.26:80/smartlocker/index.php/")
 //            .setMerchantBaseUrl("http://192.168.128.171:80/smartlocker/index.php/")
             .enableLog(true)
             .setColorTheme(CustomColorTheme("#FF3700B3", "#FF3700B3", "#FF3700B3"))
