@@ -27,6 +27,7 @@ import com.macca.smartlocker.Model.Transaction
 import com.macca.smartlocker.Model.User
 import com.macca.smartlocker.Payments.PaymentActivity
 import com.macca.smartlocker.R
+import com.macca.smartlocker.Util.AlarmNotification
 import com.macca.smartlocker.Util.BroadcastReceiver
 import com.macca.smartlocker.Util.ForcedOpenAlarm
 import com.macca.smartlocker.Util.SmartLockerSharedPreferences
@@ -34,6 +35,7 @@ import kotlinx.android.synthetic.main.end_locker_dialog.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.time_picker_dialog.*
 import kotlinx.android.synthetic.main.time_picker_dialog.btn_dialog_cancel
+import java.lang.Thread.sleep
 
 class MyLockerFragment : Fragment() {
 
@@ -129,8 +131,10 @@ class MyLockerFragment : Fragment() {
                                 Log.d("transactionStatus", "Transaction is Running")
 
                                 val ma = activity as? MainActivity
-                                ma?.setAlarmNotification(endTime.toString().toLong())
-
+                                ma?.setAlarmNotification(endTime.toString().toLong(), true)
+                            } else {
+                                val mas = activity as? MainActivity
+                                mas?.setAlarmNotification(0, false)
                             }
                         }
                     rv_my_locker?.adapter = transactionAdapter

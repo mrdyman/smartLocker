@@ -95,14 +95,18 @@ class MainActivity : AppCompatActivity() {
         true
     }
 
-    fun setAlarmNotification(endTime : Long){
+    fun setAlarmNotification(endTime : Long, enable: Boolean){
         Log.d("alarmLog", "set the alarm")
         Log.d("alarmLog", endTime.toString())
         createAlarmChannel()
         val i = Intent(this, AlarmNotification::class.java)
         val pi = PendingIntent.getBroadcast(this, 0, i, 0)
         val am : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, endTime - 600000, pi)
+        if (enable){
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, endTime - 600000, pi)
+        } else {
+            am.cancel(pi)
+        }
     }
 
     private fun createAlarmChannel(){
